@@ -22,22 +22,23 @@ class _loginState extends State<login> {
                 SizedBox(height: 120),
 
                 Text(
-                  "Login to your account ",
+                  "Login Account ",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
                       fontWeight: FontWeight.bold),
                 ),
+                      
+                Text("Welcome Back", style: TextStyle(color: Colors.white),),
                 SizedBox(height: 20),
 
                 // Card with form fields
                 Card(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(80), topLeft: Radius.circular(80))),
                   elevation: 8,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(45.0),
                     child: Column(
                       children: <Widget>[
                         ClipRRect(

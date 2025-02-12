@@ -29,11 +29,11 @@ class _signupState extends State<signup> {
 
                 // Card with form fields
                 Card(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(80), topLeft: Radius.circular(80))),
                   elevation: 8,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(44.0),
                     child: Column(
                       children: <Widget>[
 
