@@ -38,7 +38,7 @@ class _loginState extends State<login> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(80), topLeft: Radius.circular(80))),
                   elevation: 8,
                   child: Padding(
-                    padding: const EdgeInsets.all(46.0),
+                    padding: const EdgeInsets.all(50),
                     child: Column(
                       children: <Widget>[
                         ClipRRect(
@@ -108,7 +108,7 @@ class _loginState extends State<login> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
 
                         SizedBox(

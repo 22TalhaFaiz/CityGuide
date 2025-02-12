@@ -19,7 +19,7 @@ class _signupState extends State<signup> {
           child: Center(
             child: Column(
               children: <Widget>[
-                SizedBox(height: 50),
+                SizedBox(height: 75),
 
                
                 Text(
@@ -39,9 +39,9 @@ class _signupState extends State<signup> {
       topLeft: Radius.circular(80),
     ),
   ),
-  elevation: 10,
+  elevation: 8,
   child: Padding(
-    padding: const EdgeInsets.all(45),
+    padding: const EdgeInsets.all(48),
     child: Column(
       children: <Widget>[
         SizedBox(height: 20),
@@ -112,7 +112,7 @@ class _signupState extends State<signup> {
             ),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 5),
 
         // Forget Password button
         TextButton(
@@ -124,7 +124,7 @@ class _signupState extends State<signup> {
             style: TextStyle(color: Colors.orange),
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 5),
 
         // Sign-up button
         SizedBox(
@@ -138,7 +138,7 @@ class _signupState extends State<signup> {
             child: Text("Sign up"),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
 
         // Facebook button
         SizedBox(
@@ -157,7 +157,7 @@ class _signupState extends State<signup> {
           ),
         ),
 
-        SizedBox(height: 20),
+        SizedBox(height: 5),
 
         // Login navigation
         Row(
