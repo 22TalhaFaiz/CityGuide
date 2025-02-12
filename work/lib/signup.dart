@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:work/login.dart';
 
+
 class signup extends StatefulWidget {
   const signup({super.key});
 
@@ -18,7 +19,7 @@ class _signupState extends State<signup> {
           child: Center(
             child: Column(
               children: <Widget>[
-                SizedBox(height: 80),
+                SizedBox(height: 50),
 
                
                 Text(
@@ -28,162 +29,163 @@ class _signupState extends State<signup> {
                 Text("Create an account to explore the best of the city!", style: TextStyle(color: Colors.white),),
 
                 SizedBox(height: 20),
+               
 
-                // Card with form fields
                 Card(
-                  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(80), topLeft: Radius.circular(80))),
-                  elevation: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(44.0),
-                    child: Column(
-                      children: <Widget>[
-
-                  SizedBox(height: 20,),
-                        // Username input
-                        SizedBox(
-                          width: 250,
-                          child: TextField(
-                            // controller: _username,
-                            decoration: InputDecoration(
-                              hintText: "Username",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              fillColor: Colors.deepOrangeAccent[50],
-                              filled: true,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-
-                        // Email input
-                        SizedBox(
-                          width: 250,
-                          child: TextField(
-                            // controller: _email,
-                            decoration: InputDecoration(
-                              hintText: "Email",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              fillColor: Colors.deepOrangeAccent[50],
-                              filled: true,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-
-                        // Phone input
-                        SizedBox(
-                          width: 250,
-                          child: TextField(
-                            // controller: _phone,
-                            decoration: InputDecoration(
-                              hintText: "Phone",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              fillColor: Colors.deepOrangeAccent[50],
-                              filled: true,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-
-                        // Password input
-                        SizedBox(
-                          width: 250,
-                          child: TextField(
-                            // controller: _password,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              hintText: "Password",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              fillColor: Colors.deepOrangeAccent[50],
-                              filled: true,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-
-                        // Forget Password button
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => login()));
-                          },
-                          child: Text(
-                            "Forget Your Password?",
-                            style: TextStyle(color: Colors.orange),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-
-                        
-                             SizedBox(
-                          width: 250,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepOrange, // Button color
-                              foregroundColor: Colors.white, // Text color
-                            ),
-                            child: Text("Sign up"),
-                          ),
-                        ),
-                        SizedBox(height: 20,),
-                         SizedBox(
-  width: 250,
-  child: ElevatedButton.icon(
-    onPressed: () {},
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blue, // Button color
-      foregroundColor: Colors.white, // Text color
+  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.only(
+      topRight: Radius.circular(80),
+      topLeft: Radius.circular(80),
     ),
-    icon: Icon(
-      Icons.facebook, // Facebook icon
-      color: Colors.white,
-    ),
-    label: Text("Facebook"),
   ),
-),
+  elevation: 10,
+  child: Padding(
+    padding: const EdgeInsets.all(48),
+    child: Column(
+      children: <Widget>[
+        SizedBox(height: 20),
+        // Username input
+        SizedBox(
+          width: 250,
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: "Username",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide.none,
+              ),
+              fillColor: Colors.deepOrangeAccent[50],
+              filled: true,
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
 
-                         
+        // Email input
+        SizedBox(
+          width: 250,
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: "Email",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide.none,
+              ),
+              fillColor: Colors.deepOrangeAccent[50],
+              filled: true,
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
 
-                        // Sign-up button
-                       
+        // Phone input
+        SizedBox(
+          width: 250,
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: "Phone",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide.none,
+              ),
+              fillColor: Colors.deepOrangeAccent[50],
+              filled: true,
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
 
-                        // Login navigation
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Text(
-                              "Already have an Account?",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            TextButton(
-                              onPressed: () {
+        // Password input
+        SizedBox(
+          width: 250,
+          child: TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: "Password",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide.none,
+              ),
+              fillColor: Colors.deepOrangeAccent[50],
+              filled: true,
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
+
+        // Forget Password button
+        TextButton(
+          onPressed: () {
+            // Navigate to the forgot password screen
+          },
+          child: Text(
+            "Forget Your Password?",
+            style: TextStyle(color: Colors.orange),
+          ),
+        ),
+        SizedBox(height: 10),
+
+        // Sign-up button
+        SizedBox(
+          width: 250,
+          child: ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.deepOrange, // Button color
+              foregroundColor: Colors.white, // Text color
+            ),
+            child: Text("Sign up"),
+          ),
+        ),
+        SizedBox(height: 20),
+
+        // Facebook button
+        SizedBox(
+          width: 250,
+          child: ElevatedButton.icon(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue, // Button color
+              foregroundColor: Colors.white, // Text color
+            ),
+            icon: Icon(
+              Icons.facebook, // Facebook icon
+              color: Colors.white,
+            ),
+            label: Text("Facebook"),
+          ),
+        ),
+
+        SizedBox(height: 20),
+
+        // Login navigation
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              "Already have an Account?",
+              style: TextStyle(color: Colors.grey),
+            ),
+            TextButton(
+               onPressed: () {
                                 Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => login()));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => login()));
                               },
-                              child: Text(
-                                "Login",
-                                style: TextStyle(color: Colors.orange),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              child: Text(
+                "Login",
+                style: TextStyle(color: Colors.orange),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ),
+)
+
               ],
             ),
           ),

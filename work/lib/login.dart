@@ -19,7 +19,7 @@ class _loginState extends State<login> {
           child: Center(
             child: Column(
               children: <Widget>[
-                SizedBox(height: 120),
+                SizedBox(height: 115),
 
                 Text(
                   "Login Account ",
@@ -38,7 +38,7 @@ class _loginState extends State<login> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(80), topLeft: Radius.circular(80))),
                   elevation: 8,
                   child: Padding(
-                    padding: const EdgeInsets.all(45.0),
+                    padding: const EdgeInsets.all(46.0),
                     child: Column(
                       children: <Widget>[
                         ClipRRect(
@@ -92,7 +92,13 @@ class _loginState extends State<login> {
                         SizedBox(
                           width: 250,
                           child: ElevatedButton(
-                            onPressed: () {},
+                             onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home()));
+                              },
+                            
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   Colors.deepOrange, // Button color
@@ -133,7 +139,7 @@ class _loginState extends State<login> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Home()));
+                                        builder: (context) => signup()));
                               },
                               child: Text(
                                 "Login",
