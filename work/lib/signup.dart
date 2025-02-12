@@ -25,6 +25,8 @@ class _signupState extends State<signup> {
                   "Create Account",
                   style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
                 ),
+                Text("Create an account to explore the best of the city!", style: TextStyle(color: Colors.white),),
+
                 SizedBox(height: 20),
 
                 // Card with form fields
