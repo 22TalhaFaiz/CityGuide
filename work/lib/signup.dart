@@ -41,7 +41,7 @@ class _signupState extends State<signup> {
   ),
   elevation: 10,
   child: Padding(
-    padding: const EdgeInsets.all(48),
+    padding: const EdgeInsets.all(45),
     child: Column(
       children: <Widget>[
         SizedBox(height: 20),
