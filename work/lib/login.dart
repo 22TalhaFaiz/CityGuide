@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:work/Home.dart';
 import 'package:work/signup.dart';
 
 class login extends StatefulWidget {
@@ -11,8 +12,7 @@ class login extends StatefulWidget {
 class _loginState extends State<login> {
   @override
   Widget build(BuildContext context) {
-    
-   return Scaffold(
+    return Scaffold(
       backgroundColor: Colors.deepOrange, // Deep orange background
       body: SingleChildScrollView(
         child: Container(
@@ -21,31 +21,34 @@ class _loginState extends State<login> {
               children: <Widget>[
                 SizedBox(height: 120),
 
-               
                 Text(
                   "Login to your account ",
-                  style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
 
                 // Card with form fields
                 Card(
                   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
                   elevation: 8,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: <Widget>[
-                              ClipRRect(
-                  borderRadius: BorderRadius.circular(200),
-                  child: Image.asset(
-                    "assets/images/pngtree-orange-cutout-building-bustling-new-york-city-silhouette-png-image_5978751.png",
-                    height: 150,
-                    width: 150,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(200),
+                          child: Image.asset(
+                            "assets/images/pngtree-orange-cutout-building-bustling-new-york-city-silhouette-png-image_5978751.png",
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                         SizedBox(height: 20),
 
                         // Email input
@@ -66,8 +69,6 @@ class _loginState extends State<login> {
                         ),
                         SizedBox(height: 20),
 
-                       
-
                         // Password input
                         SizedBox(
                           width: 250,
@@ -87,42 +88,38 @@ class _loginState extends State<login> {
                         ),
                         SizedBox(height: 20),
 
-                       
-                 
-
-                       
-                             SizedBox(
+                        SizedBox(
                           width: 250,
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepOrange, // Button color
+                              backgroundColor:
+                                  Colors.deepOrange, // Button color
                               foregroundColor: Colors.white, // Text color
                             ),
-                            child: Text("Sign up"),
+                            child: Text("Login"),
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
 
-   SizedBox(
-  width: 250,
-  child: ElevatedButton.icon(
-    onPressed: () {},
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blue, // Button color
-      foregroundColor: Colors.white, // Text color
-    ),
-    icon: Icon(
-      Icons.facebook, // Facebook icon
-      color: Colors.white,
-    ),
-    label: Text("Facebook"),
-  ),
-),
- 
-                   
-     
-                        
+                        SizedBox(
+                          width: 250,
+                          child: ElevatedButton.icon(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue, // Button color
+                              foregroundColor: Colors.white, // Text color
+                            ),
+                            icon: Icon(
+                              Icons.facebook, // Facebook icon
+                              color: Colors.white,
+                            ),
+                            label: Text("Facebook"),
+                          ),
+                        ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -133,10 +130,12 @@ class _loginState extends State<login> {
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => signup()));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home()));
                               },
                               child: Text(
-                                "Signup",
+                                "Login",
                                 style: TextStyle(color: Colors.orange),
                               ),
                             ),
@@ -152,5 +151,5 @@ class _loginState extends State<login> {
         ),
       ),
     );
-   }
+  }
 }
