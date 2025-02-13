@@ -67,7 +67,7 @@ class _LpState extends State<Lp> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Colors.orange, // Button background color
+                            Colors.deepOrange, // Button background color
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(10), // Rounded corners
@@ -108,7 +108,7 @@ class _LpState extends State<Lp> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Colors.orange, // Button background color
+                            Colors.deepOrange, // Button background color
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(10), // Rounded corners
