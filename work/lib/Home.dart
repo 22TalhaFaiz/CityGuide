@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:work/Lp.dart';
 import 'package:work/login.dart';
 import 'package:work/signup.dart';
 
@@ -61,8 +62,8 @@ class _HomeState extends State<Home> {
                   leading: Icon(Icons.login),
                   title: Text('Logout'),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (builder) => login()));
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (builder) => Lp()));
                   },
                 ),
               ],

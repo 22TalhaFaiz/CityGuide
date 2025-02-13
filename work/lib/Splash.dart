@@ -1,5 +1,6 @@
 import 'dart:async'; // Correct import for Timer
 import 'package:flutter/material.dart';
+import 'package:work/Lp.dart';
 import 'package:work/signup.dart';
 
 class Spalsh extends StatefulWidget {
@@ -20,7 +21,7 @@ class _SpalshState extends State<Spalsh> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => signup()),
+          MaterialPageRoute(builder: (context) => Lp()),
         );
       }
     });
@@ -28,24 +29,22 @@ class _SpalshState extends State<Spalsh> {
 
   @override
   Widget build(BuildContext context) {
-       return  Scaffold(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                child: Image.asset(
-                  "assets/images/depositphotos_234036476-stock-illustration-vector-illustration-icon-working-system.jpg",
-                  width: 500,
-                  height: 300,
-                ),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              child: Image.asset(
+                "assets/images/depositphotos_234036476-stock-illustration-vector-illustration-icon-working-system.jpg",
+                width: 500,
+                height: 300,
               ),
             ),
-            
-          ],
-        ),
-      );
-    
+          ),
+        ],
+      ),
+    );
   }
 }
