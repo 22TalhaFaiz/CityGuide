@@ -13,7 +13,7 @@ class _loginState extends State<login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepOrange, // Deep orange background
+      backgroundColor: Colors.deepPurple, // Deep orange background
       body: SingleChildScrollView(
         child: Container(
           child: Center(
@@ -29,7 +29,7 @@ class _loginState extends State<login> {
                       fontWeight: FontWeight.bold),
                 ),
                       
-                Text("Welcome Back", style: TextStyle(color: Colors.white),),
+                Text("Welcome Back", style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                 SizedBox(height: 20),
 
                 // Card with form fields
@@ -38,117 +38,160 @@ class _loginState extends State<login> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(80), topLeft: Radius.circular(80))),
                   elevation: 8,
                   child: Padding(
-                    padding: const EdgeInsets.all(50),
+                    padding: const EdgeInsets.all(54),
                     child: Column(
                       children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(200),
-                          child: Image.asset(
-                            "assets/images/pngtree-orange-cutout-building-bustling-new-york-city-silhouette-png-image_5978751.png",
-                            height: 150,
-                            width: 150,
-                            fit: BoxFit.cover,
+                        // ClipRRect(
+                        //   borderRadius: BorderRadius.circular(200),
+                        //   child: Image.asset(
+                        //     "assets/images/pngtree-orange-cutout-building-bustling-new-york-city-silhouette-png-image_5978751.png",
+                        //     height: 150,
+                        //     width: 150,
+                        //     fit: BoxFit.cover,
+                        //   ),
+                        // ),
+                        // Email input with icon
+                    SizedBox(
+                      width: 250,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "Email",
+                          prefixIcon: Icon(Icons.email, color: Colors.deepPurple,), // Email icon
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide.none,
+                          ),
+                          fillColor: Colors.purple[50],
+                          filled: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    // Password input with icon
+                    SizedBox(
+                      width: 250,
+                      child: TextField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: "Password",
+                          prefixIcon: Icon(Icons.lock, color: Colors.deepPurple,), // Lock icon for password
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide.none,
+                          ),
+                          fillColor: Colors.purple[50],
+                          filled: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                  
+                  
+                     TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => signup()));
+                          },
+                          child: Text(
+                            "Forgot your Password",
+                            style: TextStyle(color: Colors.deepPurple,fontWeight: FontWeight.bold),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        
+                      
+                    SizedBox(height: 10),
 
-                        // Email input
-                        SizedBox(
-                          width: 250,
-                          child: TextField(
-                            // controller: _email,
-                            decoration: InputDecoration(
-                              hintText: "Email",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              fillColor: Colors.deepOrangeAccent[50],
-                              filled: true,
-                            ),
+                    // Sign-up button
+                    SizedBox(
+                      width: 250,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        
+                        style: ElevatedButton.styleFrom(
+                           shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(13), // Reduce this value for a smaller radius
+    ),
+                          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                          elevation: 10, // Shadow effect
+                          shadowColor: Colors.deepPurple.withOpacity(0.9),
+                          backgroundColor: Colors.deepPurple,
+                          foregroundColor: Colors.white,
+                          
+                        ),
+                        child: Text("Login"  , style: TextStyle(fontWeight: FontWeight.bold),),
+                      ),
+                    ),
+                    SizedBox(height: 30),
+
+                    Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Container(
+      width: 50,
+       
+      decoration: BoxDecoration(
+        color: Colors.grey[200], // Light background
+        borderRadius: BorderRadius.circular(10), // Rounded corners
+      ),
+      child: IconButton(
+        onPressed: () {}, 
+        icon: Icon(Icons.facebook,color: Colors.blue,), // Facebook Icon
+      ),
+    ),
+SizedBox(width: 20,),
+    Container(
+      width: 50,
+       
+      decoration: BoxDecoration(
+        color: Colors.grey[200], // Light background
+        borderRadius: BorderRadius.circular(10), // Rounded corners
+      ),
+      child: IconButton(
+        onPressed: () {}, 
+        icon: Icon(Icons.g_mobiledata,color: Colors.red,), // Facebook Icon
+      ),
+    ),
+
+    SizedBox(width: 20,),
+    Container(
+      width: 50,
+       
+      decoration: BoxDecoration(
+        color: Colors.grey[200], // Light background
+        borderRadius: BorderRadius.circular(10), // Rounded corners
+      ),
+      child: IconButton(
+        onPressed: () {}, 
+        icon: Icon(Icons.apple,color: Colors.black,), // Facebook Icon
+      ),
+    ),
+
+  ],
+),
+                    SizedBox(height: 20),
+
+                    // Login navigation
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          "Create new Account?",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => signup()));
+                          },
+                          child: Text(
+                            "Signup",
+                            style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        SizedBox(height: 20),
-
-                        // Password input
-                        SizedBox(
-                          width: 250,
-                          child: TextField(
-                            // controller: _password,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              hintText: "Password",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              fillColor: Colors.deepOrangeAccent[50],
-                              filled: true,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-
-                        SizedBox(
-                          width: 250,
-                          child: ElevatedButton(
-                             onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Home()));
-                              },
-                            
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.deepOrange, // Button color
-                              foregroundColor: Colors.white, // Text color
-                            ),
-                            child: Text("Login"),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-
-                        SizedBox(
-                          width: 250,
-                          child: ElevatedButton.icon(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue, // Button color
-                              foregroundColor: Colors.white, // Text color
-                            ),
-                            icon: Icon(
-                              Icons.facebook, // Facebook icon
-                              color: Colors.white,
-                            ),
-                            label: Text("Facebook"),
-                          ),
-                        ),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Text(
-                              "Create Your Account?",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => signup()));
-                              },
-                              child: Text(
-                                "Login",
-                                style: TextStyle(color: Colors.orange),
-                              ),
-                            ),
-                          ],
                         ),
                       ],
+                    ),
+                  ],
+                    
                     ),
                   ),
                 ),
