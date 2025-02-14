@@ -42,16 +42,7 @@ class _loginState extends State<login> {
                     padding: const EdgeInsets.all(54),
                     child: Column(
                       children: <Widget>[
-                        // ClipRRect(
-                        //   borderRadius: BorderRadius.circular(200),
-                        //   child: Image.asset(
-                        //     "assets/images/images.jpeg",
-                        //     height: 150,
-                        //     width: 150,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // ),
-                        // Email input with icon
+                      
                     SizedBox(
                       width: 250,
                       child: TextField(
