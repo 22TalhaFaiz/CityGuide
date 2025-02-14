@@ -21,7 +21,7 @@ class _LpState extends State<Lp> {
         children: [
           // Background Image
           Image.asset(
-            'assets/images/bg.jpg',
+            "assets/images/pakistan's-most-famous-historic-monument-minar-e-pakistan-illuminated-440nw-10963713h.jpg",
             fit: BoxFit.cover, // Ensures the image covers the entire screen
           ),
           // Apply a blur effect (using BackdropFilter)
@@ -70,7 +70,7 @@ class _LpState extends State<Lp> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Colors.deepOrange, // Button background color
+                            Colors.white, // Button background color
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(10), // Rounded corners
@@ -81,13 +81,13 @@ class _LpState extends State<Lp> {
                         children: [
                           Icon(
                             Icons.person,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           SizedBox(width: 10),
                           Text(
                             "Login",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -113,7 +113,7 @@ class _LpState extends State<Lp> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Colors.deepOrange, // Button background color
+                            Colors.deepPurple, // Button background color
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(10), // Rounded corners
@@ -130,7 +130,7 @@ class _LpState extends State<Lp> {
                             width: 10,
                           ),
                           Text(
-                            "Register",
+                            "Signup",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

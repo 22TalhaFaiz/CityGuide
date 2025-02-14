@@ -37,9 +37,9 @@ class _SpalshState extends State<Spalsh> {
           Center(
             child: Container(
               child: Image.asset(
-                "assets/images/depositphotos_234036476-stock-illustration-vector-illustration-icon-working-system.jpg",
+                "assets/images/Black White Minimalist Monogram Initial Logo (1) - Copy.jpg",
                 width: 500,
-                height: 300,
+                height: 500,
               ),
             ),
           ),

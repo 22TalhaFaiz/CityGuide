@@ -34,6 +34,7 @@ class _loginState extends State<login> {
 
                 // Card with form fields
                 Card(
+                  color: Colors.grey[100],
                   margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(80), topLeft: Radius.circular(80))),
                   elevation: 8,
@@ -44,7 +45,7 @@ class _loginState extends State<login> {
                         // ClipRRect(
                         //   borderRadius: BorderRadius.circular(200),
                         //   child: Image.asset(
-                        //     "assets/images/pngtree-orange-cutout-building-bustling-new-york-city-silhouette-png-image_5978751.png",
+                        //     "assets/images/images.jpeg",
                         //     height: 150,
                         //     width: 150,
                         //     fit: BoxFit.cover,
@@ -61,7 +62,7 @@ class _loginState extends State<login> {
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
                           ),
-                          fillColor: Colors.purple[50],
+                          fillColor: Colors.orangeAccent[50],
                           filled: true,
                         ),
                       ),
@@ -79,7 +80,7 @@ class _loginState extends State<login> {
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
                           ),
-                          fillColor: Colors.purple[50],
+                          fillColor: Colors.orangeAccent[50],
                           filled: true,
                         ),
                       ),
