@@ -76,84 +76,158 @@ class _HomeState extends State<Home> {
           )
         ]),
       ),
-      body: Column(
-        children: [
-          // CarouselSlider
-          CarouselSlider(
-            options: CarouselOptions(height: 200),
-            items: [1, 2, 3, 4, 5].map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    decoration: const BoxDecoration(
-                        // color: Colors.blueAccent, // Change the color here
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // CarouselSlider
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 200, // Set fixed height for the carousel
+                viewportFraction:
+                    0.9, // Adjusts how much of the next/prev image is visible
+                autoPlay: true, // Optional: Enables auto-slide
+                enlargeCenterPage:
+                    true, // Optional: Makes the center image slightly bigger
+              ),
+              items: [
+                'assets/images/Hospital1.jpg',
+                'assets/images/Hotel.jpeg',
+                'assets/images/Mall1.jpg',
+                'assets/images/Sea1.webp',
+                'assets/images/Park.jpeg',
+              ].map((imagePath) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(10), // Rounded corners
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            10), // Ensures the images follow the container shape
+                        child: SizedBox(
+                          height: 200, // Set fixed height for all images
+                          child: Image.asset(
+                            imagePath,
+                            fit: BoxFit
+                                .cover, // Ensures all images fill the box proportionally
+                            width: double
+                                .infinity, // Ensures images stretch across the width
+                          ),
                         ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/islbg.jpg', // Replace with your images from assets
-                        fit: BoxFit.cover, // Adjust image scaling
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+//Add the Recomenndation
+            SizedBox(
+              height: 40,
+            ),
+            SizedBox(
+              width: double.infinity, // Ensures full width
+              child: Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween, // Aligns items to both ends
+                children: [
+                  Text(
+                    'Recommendation',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      fontFamily: 'Roboto',
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  Text(
+                    'See All',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      fontFamily: 'Roboto',
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Categories Section
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.builder(
+                shrinkWrap:
+                    true, // Important for allowing scrolling inside Column
+                physics:
+                    const NeverScrollableScrollPhysics(), // Prevent nested scrolling
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Number of columns
+                  crossAxisSpacing: 10, // Horizontal space between cards
+                  mainAxisSpacing: 10, // Vertical space between cards
+                  childAspectRatio: 1.0, // Aspect ratio for each card
+                ),
+                itemCount: 6, // Number of categories
+                itemBuilder: (context, index) {
+                  // Define category data manually
+                  List<Map<String, String>> categories = [
+                    {
+                      'image': 'assets/images/Mountain1.jpg',
+                      'title': 'Mountains'
+                    },
+                    {'image': 'assets/images/Sea1.webp', 'title': 'Sea'},
+                    {'image': 'assets/images/Mall1.jpg', 'title': 'Malls'},
+                    {
+                      'image': 'assets/images/Hospital1.jpg',
+                      'title': 'Hospitals'
+                    },
+                    {'image': 'assets/images/Park.jpeg', 'title': 'Parks'},
+                    {'image': 'assets/images/Hotel.jpeg', 'title': 'Hotels'},
+                  ];
+
+                  return Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        // Handle category click (e.g., navigate to category page)
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            categories[index]
+                                ['image']!, // Manually assigned image
+                            height: 160,
+                            width: 220,
+                            fit: BoxFit.cover,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            categories[index]
+                                ['title']!, // Manually assigned category name
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
                 },
-              );
-            }).toList(),
-          ),
-//Add Categories like Mountain and Sea and Malls nad Hospitals
-          // Categories Section
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: GridView.builder(
-              shrinkWrap: true, // Important for allowing scrolling in Column
-              physics:
-                  NeverScrollableScrollPhysics(), // Prevent nested scrolling
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Number of columns
-                crossAxisSpacing: 10, // Horizontal space between cards
-                mainAxisSpacing: 10, // Vertical space between cards
-                childAspectRatio: 1.0, // Aspect ratio for each card
               ),
-              itemCount: 4, // Number of categories
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      // Handle category click (e.g., navigate to category page)
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Category Image
-                        Image.asset(
-                          'assets/images/logoLP.png', // Replace with your category images
-                          height: 80,
-                          width: 80,
-                          fit: BoxFit.cover,
-                        ),
-                        const SizedBox(height: 10),
-                        // Category Name
-                        Text(
-                          'Category ${index + 1}', // Replace with category names
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
