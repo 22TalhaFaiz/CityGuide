@@ -13,25 +13,34 @@ class _signupState extends State<signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple, // Deep orange background
-      body: SingleChildScrollView(
-        child: Container(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 75),
 
-               
-                Text(
-                  "Create Account",
-                  style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                Text("Create an account to explore the best of the city!", style: TextStyle(color: Colors.white ,fontWeight: FontWeight.bold),),
-
+backgroundColor: Colors.transparent, // Remove solid color
+body: SingleChildScrollView(
+  child: Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Colors.deepPurple, Colors.white], // Purple to White gradient
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+    ),
+    child: Center(
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 75),
+          Text(
+            "Create Account",
+            style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            "Create an account to explore the best of the city!",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
                 SizedBox(height: 20),
                
 
                 Card(
+                  
   margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.only(

@@ -13,13 +13,21 @@ class _loginState extends State<login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple, // Deep orange background
-      body: SingleChildScrollView(
-        child: Container(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 115),
+     backgroundColor: Colors.transparent, // Remove solid color
+body: SingleChildScrollView(
+  child: Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Colors.deepPurple, Colors.white], // Purple to White gradient
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+    ),
+    child: Center(
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 115),
+
 
                 Text(
                   "Login Account ",
