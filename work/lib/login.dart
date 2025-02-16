@@ -17,16 +17,12 @@ class _loginState extends State<login> {
 body: SingleChildScrollView(
   child: Container(
     decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [Colors.deepPurple, Colors.white], // Purple to White gradient
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
+     color: Colors.deepPurple
     ),
     child: Center(
       child: Column(
         children: <Widget>[
-          SizedBox(height: 115),
+          SizedBox(height: 100),
 
 
                 Text(
@@ -38,18 +34,21 @@ body: SingleChildScrollView(
                 ),
                       
                 Text("Welcome Back", style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-                SizedBox(height: 20),
+                SizedBox(height: 30),
 
-                // Card with form fields
-                Card(
-                  color: Colors.grey[100],
-                  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(80), topLeft: Radius.circular(80))),
-                  elevation: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(54),
-                    child: Column(
+                 Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(80),
+                          topLeft: Radius.circular(80),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(65),
+                       child: Column(
                       children: <Widget>[
+                        SizedBox(height: 40,),
                       
                     SizedBox(
                       width: 250,
@@ -89,8 +88,8 @@ body: SingleChildScrollView(
                   
                      TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => signup()));
+                            // Navigator.push(
+                            //     context, MaterialPageRoute(builder: (context) => signup()));
                           },
                           child: Text(
                             "Forgot your Password",
@@ -180,8 +179,8 @@ SizedBox(width: 20,),
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => signup()));
+                             Navigator.push(
+                                 context, MaterialPageRoute(builder: (context) => signup()));
                           },
                           child: Text(
                             "Signup",
@@ -194,7 +193,7 @@ SizedBox(width: 20,),
                     
                     ),
                   ),
-                ),
+                
               ],
             ),
           ),

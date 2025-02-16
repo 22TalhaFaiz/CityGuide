@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:work/login.dart';
 
-
 class signup extends StatefulWidget {
   const signup({super.key});
 
@@ -13,55 +12,56 @@ class _signupState extends State<signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: 
+         SingleChildScrollView(  // Added ScrollView
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+               color: Colors.deepPurple
+                ),
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(height: 57),
+                    const Text(
+                      "Create Account",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const Text(
+                      "Create an account to explore the best of the city!",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
 
-backgroundColor: Colors.transparent, // Remove solid color
-body: SingleChildScrollView(
-  child: Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [Colors.deepPurple, Colors.white], // Purple to White gradient
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-    ),
-    child: Center(
-      child: Column(
-        children: <Widget>[
-          SizedBox(height: 75),
-          Text(
-            "Create Account",
-            style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            "Create an account to explore the best of the city!",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-                SizedBox(height: 20),
-               
+                    // Card Container
+                   
+                    Container(
+                      
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                         color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(80),
+                          topLeft: Radius.circular(80),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(42),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                    SizedBox(height: 30),
 
-                Card(
-                  
-  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.only(
-      topRight: Radius.circular(80),
-      topLeft: Radius.circular(80),
-    ),
-  ),
-  elevation: 8,
-  child: Padding(
-    padding: const EdgeInsets.all(48),
-    child: Column(
-      children: <Widget>[
-        SizedBox(height: 20),
-       // Username input with icon
-                    SizedBox(
+                           SizedBox(
                       width: 250,
                       child: TextField(
                         decoration: InputDecoration(
-                          
                           hintText: "Username",
-                          prefixIcon: Icon(Icons.person , color: Colors.deepPurple,), // Username icon
+                          prefixIcon: Icon(Icons.person, color: Colors.deepPurple,), // Email icon
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -72,30 +72,14 @@ body: SingleChildScrollView(
                       ),
                     ),
                     SizedBox(height: 20),
-                    // Email input with icon
-                    SizedBox(
+
+                          // Email input
+                          SizedBox(
                       width: 250,
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: "Email",
                           prefixIcon: Icon(Icons.email, color: Colors.deepPurple,), // Email icon
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none,
-                          ),
-                          fillColor: Colors.orangeAccent[50],
-                          filled: true,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    // Phone input with icon
-                    SizedBox(
-                      width: 250,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Phone",
-                          prefixIcon: Icon(Icons.phone , color: Colors.deepPurple,), // Phone icon
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -112,8 +96,8 @@ body: SingleChildScrollView(
                       child: TextField(
                         obscureText: true,
                         decoration: InputDecoration(
-                          hintText: "Password",
-                          prefixIcon: Icon(Icons.lock, color: Colors.deepPurple,), // Lock icon for password
+                          hintText: "Phone",
+                          prefixIcon: Icon(Icons.phone, color: Colors.deepPurple,), // Lock icon for password
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -123,30 +107,53 @@ body: SingleChildScrollView(
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
-
-                    // Sign-up button
+                   
+                          SizedBox(height: 20),
+                    // Password input with icon
                     SizedBox(
                       width: 250,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(13), // Reduce this value for a smaller radius
-    ),
-                          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-                          elevation: 10, // Shadow effect
-                          shadowColor: Colors.deepPurple.withOpacity(0.9),
-                          backgroundColor: Colors.deepPurple,
-                          foregroundColor: Colors.white,
+                      child: TextField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                        
+                          hintText: "Password",
+                          prefixIcon: Icon(Icons.lock, color: Colors.deepPurple,), // Lock icon for password
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide.none,
+                            
+                          ),
+                          fillColor: Colors.orangeAccent[50],
+                          filled: true,
                         ),
-                        child: Text("Sign up"  , style: TextStyle(fontWeight: FontWeight.bold),),
                       ),
                     ),
                     SizedBox(height: 30),
-
-
-   Row(
+                  
+                          // Sign-up button
+                          SizedBox(
+                            width: 250,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 50),
+                                elevation: 10,
+                                shadowColor: Colors.deepPurple.withOpacity(0.9),
+                                backgroundColor: Colors.deepPurple,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: const Text(
+                                "Sign up",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+Row(
   mainAxisAlignment: MainAxisAlignment.center,
   children: [
     Container(
@@ -192,38 +199,48 @@ SizedBox(width: 20,),
   ],
 ),
 
+                          const SizedBox(height: 20),
 
-                    SizedBox(height: 20),
-
-                    // Login navigation
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Text(
-                          "Already have an Account?",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => login()));
-                          },
-                          child: Text(
-                            "Login",
-                            style: TextStyle(color: Colors.deepPurple,fontWeight: FontWeight.bold),
+                          // Login navigation
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Text(
+                                "Already have an Account?",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                Navigator.push(
+                                 context, MaterialPageRoute(builder: (context) => login()));
+                                },
+                                child: const Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: Colors.deepPurple,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    )],
-    ),
-  ),
-)
-
-              ],
-            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-      ),
+      
     );
   }
-}
+
+  
+  }
+
+  // Function for social media button styling
+ 
+    
+  
+
