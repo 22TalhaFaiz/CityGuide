@@ -186,7 +186,7 @@ class _HomeState extends State<Home> {
                       'image': 'assets/images/Hospital1.jpg',
                       'title': 'Hospitals'
                     },
-                    {'image': 'assets/images/Park.jpeg', 'title': 'Parks'},
+                    {'image': 'assets/images/Park.jpeg',  'title': 'Parks'},
                     {'image': 'assets/images/Hotel.jpeg', 'title': 'Hotels'},
                   ];
 
@@ -206,7 +206,7 @@ class _HomeState extends State<Home> {
                           Image.asset(
                             categories[index]
                                 ['image']!, // Manually assigned image
-                            height: 160,
+                            height: 140,
                             width: 220,
                             fit: BoxFit.cover,
                           ),
@@ -215,7 +215,7 @@ class _HomeState extends State<Home> {
                             categories[index]
                                 ['title']!, // Manually assigned category name
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 12,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
