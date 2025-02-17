@@ -148,7 +148,7 @@ class _LpState extends State<Lp> {
                       // Navigate to the Home page
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const KarachiPage()),
+                        MaterialPageRoute(builder: (context) => const Home()),
                       );
                     },
                     style: TextButton.styleFrom(
