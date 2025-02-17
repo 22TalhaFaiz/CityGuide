@@ -177,16 +177,16 @@ class _HomeState extends State<Home> {
                   // Define category data manually
                   List<Map<String, String>> categories = [
                     {
-                      'image': 'assets/images/Mountain1.jpg',
-                      'title': 'Mountains'
+                      'image': 'assets/images/Tomb.JPG',
+                      'title': 'Karachi'
                     },
-                    {'image': 'assets/images/Sea1.webp', 'title': 'Sea'},
-                    {'image': 'assets/images/Mall1.jpg', 'title': 'Malls'},
+                    {'image': 'assets/images/Lahore Museum.jpg', 'title': 'Lahore'},
+                    {'image': 'assets/images/Faisal Mosqueisla.jpg', 'title': 'Islamabad'},
                     {
                       'image': 'assets/images/Hospital1.jpg',
-                      'title': 'Hospitals'
+                      'title': 'Abbottabad'
                     },
-                    {'image': 'assets/images/Park.jpeg',  'title': 'Parks'},
+                    {'image': 'assets/images/Park.jpeg',  'title': 'Multan'},
                     {'image': 'assets/images/Hotel.jpeg', 'title': 'Hotels'},
                   ];
 
