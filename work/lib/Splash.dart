@@ -1,7 +1,6 @@
 import 'dart:async'; // Correct import for Timer
 import 'package:flutter/material.dart';
 import 'package:work/Lp.dart';
-import 'package:work/signup.dart';
 
 class Spalsh extends StatefulWidget {
   const Spalsh({super.key});
