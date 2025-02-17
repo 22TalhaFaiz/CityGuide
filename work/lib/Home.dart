@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/Lp.dart';
+import 'package:work/editprofile.dart';
 import 'package:work/login.dart';
 import 'package:work/signup.dart';
 
@@ -12,75 +14,115 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String userName = "Guest";
+  String userEmail = "guest@example.com";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  _loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('userName') ?? 'Guest';
+      userEmail = prefs.getString('userEmail') ?? 'guest@example.com';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.deepPurple,
         title: const Text('Home'),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
         ],
       ),
       drawer: Drawer(
-        child: Column(children: [
-          UserAccountsDrawerHeader(
-            decoration: const BoxDecoration(
-                gradient:
-                    LinearGradient(colors: [Colors.orange, Colors.deepOrange])),
-            accountName: const Text('Ibrahim'),
-            accountEmail: const Text('ibo@gmail.com'),
-            currentAccountPicture: const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Ffreepng%2Fuser-profile-avatar_13369988.html&psig=AOvVaw1AIfT0EuW5eHQJygOuFA13&ust=1738389005155000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJC2uuuhn4sDFQAAAAAdAAAAABAE'),
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [Colors.purpleAccent, Colors.deepPurple])),
+              accountName: Text(userName),
+              accountEmail: Text(userEmail),
+              currentAccountPicture: const CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'),
+              ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.home),
-                  title: const Text('Home'),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (builder) => const Home()));
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.person),
-                  title: const Text('Login'),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (builder) => const login()));
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.account_circle),
-                  title: const Text('Signup'),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => const signup()));
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.login),
-                  title: const Text('Logout'),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (builder) => const Lp()));
-                  },
-                ),
-              ],
-            ),
-          )
-        ]),
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.home),
+                    title: const Text('Home'),
+                    onTap: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                  if (userEmail == "guest@example.com") ...[
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text('Login'),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => login()));
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.account_circle),
+                      title: const Text('Signup'),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => const signup()));
+                      },
+                    ),
+                  ] else ...[
+                    ListTile(
+                      leading: const Icon(Icons.account_circle),
+                      title: const Text('Profile'),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => profile()));
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.logout),
+                      title: const Text('Logout'),
+                      onTap: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.remove('userName');
+                        await prefs.remove('userEmail');
+
+                        setState(() {
+                          userName = "Guest";
+                          userEmail = "guest@example.com";
+                        });
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => login()),
+                        );
+                      },
+                    ),
+                  ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
       body: SingleChildScrollView(
-      
         child: Column(
-          
           children: [
             // CarouselSlider
             CarouselSlider(
@@ -127,7 +169,7 @@ class _HomeState extends State<Home> {
                 );
               }).toList(),
             ),
-//Add the Recomenndation
+            // Recommendation
             SizedBox(
               height: 40,
             ),
@@ -160,7 +202,6 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-
             // Categories Section
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -179,17 +220,20 @@ class _HomeState extends State<Home> {
                 itemBuilder: (context, index) {
                   // Define category data manually
                   List<Map<String, String>> categories = [
+                    {'image': 'assets/images/Tomb.JPG', 'title': 'Karachi'},
                     {
-                      'image': 'assets/images/Tomb.JPG',
-                      'title': 'Karachi'
+                      'image': 'assets/images/Lahore Museum.jpg',
+                      'title': 'Lahore'
                     },
-                    {'image': 'assets/images/Lahore Museum.jpg', 'title': 'Lahore'},
-                    {'image': 'assets/images/Faisal Mosqueisla.jpg', 'title': 'Islamabad'},
+                    {
+                      'image': 'assets/images/Faisal Mosqueisla.jpg',
+                      'title': 'Islamabad'
+                    },
                     {
                       'image': 'assets/images/Hospital1.jpg',
                       'title': 'Abbottabad'
                     },
-                    {'image': 'assets/images/Park.jpeg',  'title': 'Multan'},
+                    {'image': 'assets/images/Park.jpeg', 'title': 'Multan'},
                     {'image': 'assets/images/Hotel.jpeg', 'title': 'Hotels'},
                   ];
 
@@ -200,23 +244,28 @@ class _HomeState extends State<Home> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        // Handle category click (e.g., navigate to category page)
+                        // Navigate to a new page for the selected category
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CategoryPage(
+                                category: categories[index]['title']!),
+                          ),
+                        );
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(
-                            categories[index]
-                                ['image']!, // Manually assigned image
+                            categories[index]['image']!,
                             height: 140,
                             width: 220,
                             fit: BoxFit.cover,
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            categories[index]
-                                ['title']!, // Manually assigned category name
+                            categories[index]['title']!,
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -232,6 +281,20 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CategoryPage extends StatelessWidget {
+  final String category;
+
+  const CategoryPage({Key? key, required this.category}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(category)),
+      body: Center(child: Text('Welcome to $category page!')),
     );
   }
 }

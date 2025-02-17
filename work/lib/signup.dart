@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/database_service.dart';
 import 'package:work/login.dart';
 
@@ -10,8 +11,6 @@ class signup extends StatefulWidget {
   State<signup> createState() => _signupState();
 }
 
-
-
 class _signupState extends State<signup> {
   final _dbService = DatabaseService();
 
@@ -19,8 +18,6 @@ class _signupState extends State<signup> {
   final _name = TextEditingController();
   final _password = TextEditingController();
   final _phone = TextEditingController();
-
-
 
   @override
   void dispose() {
@@ -187,6 +184,13 @@ class _signupState extends State<signup> {
                                   name, email, phone, password);
 
                               if (result == "User registered successfully!") {
+                                // User Details for Session
+
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setString('userName', name);
+                                prefs.setString('userEmail', email);
+
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text("Signup Successful!")),
                                 );
