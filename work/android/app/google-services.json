@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "125320758727",
+    "project_id": "city-guide-d829b",
+    "storage_bucket": "city-guide-d829b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125320758727:android:cf25d175408ffd264dc5e2",
+        "android_client_info": {
+          "package_name": "com.example.cityguide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGb94XmmgO6pUgZ2mKH6HYnIIlxnU00vY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125320758727:android:a800c9d42b80f9604dc5e2",
+        "android_client_info": {
+          "package_name": "com.example.work"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGb94XmmgO6pUgZ2mKH6HYnIIlxnU00vY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

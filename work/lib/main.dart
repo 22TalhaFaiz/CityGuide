@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:work/Splash.dart';
+import 'package:work/firebase_options.dart';
 
 
 
@@ -19,6 +22,17 @@ class _myappState extends State<myapp> {
     );
   }
 }
-void main(){
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+   // Call after Firebase is initialized
+
   runApp(myapp());
 }
+
