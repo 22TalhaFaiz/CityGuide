@@ -16,6 +16,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // backgroundColor: Colors.deepPurple,
         title: const Text('Home'),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
@@ -77,7 +78,9 @@ class _HomeState extends State<Home> {
         ]),
       ),
       body: SingleChildScrollView(
+      
         child: Column(
+          
           children: [
             // CarouselSlider
             CarouselSlider(
