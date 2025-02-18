@@ -40,6 +40,7 @@ dependencies:
   firebase_auth: 4.20.0
   shared_preferences: ^2.0.6
   http: ^0.13.3
+  fluttertoast: ^8.2.8
 
 dev_dependencies:
   flutter_test:

@@ -14,8 +14,8 @@ class signup extends StatefulWidget {
 class _signupState extends State<signup> {
   final _dbService = DatabaseService();
 
-  final _email = TextEditingController();
   final _name = TextEditingController();
+  final _email = TextEditingController();
   final _password = TextEditingController();
   final _phone = TextEditingController();
 
@@ -23,8 +23,8 @@ class _signupState extends State<signup> {
   void dispose() {
     super.dispose();
 
-    _email.dispose();
     _name.dispose();
+    _email.dispose();
     _password.dispose();
     _phone.dispose();
   }

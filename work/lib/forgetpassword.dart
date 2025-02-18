@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:work/login.dart';
+import 'package:work/utils.dart'; // Ensure Utils is imported
 
 class forget extends StatefulWidget {
   const forget({super.key});
@@ -9,6 +11,9 @@ class forget extends StatefulWidget {
 }
 
 class _forgetState extends State<forget> {
+  final email = TextEditingController();
+  final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +25,7 @@ class _forgetState extends State<forget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 40),
-              
+
               /// Back Button
               Align(
                 alignment: Alignment.centerLeft,
@@ -32,13 +37,11 @@ class _forgetState extends State<forget> {
                 ),
               ),
 
-              // SizedBox(height: 10),
               Image.asset(
                 "assets/images/Black White Minimalist Monogram Initial Logo (1) - Copy.jpg",
                 width: 200,
                 height: 200,
               ),
-              // SizedBox(height: 10),s
               Text(
                 "Forget Your Password",
                 style: TextStyle(
@@ -55,8 +58,9 @@ class _forgetState extends State<forget> {
               SizedBox(
                 width: 250,
                 child: TextField(
+                  controller: email,
                   decoration: InputDecoration(
-                    hintText: "Email Your Email ",
+                    hintText: "Enter Your Email ",
                     prefixIcon: Icon(
                       Icons.email,
                       color: Colors.deepPurple,
@@ -72,13 +76,18 @@ class _forgetState extends State<forget> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  auth.sendPasswordResetEmail(email: email.text.toString()).then((value) {
+                    Utils.toastMessage("Password reset email sent successfully");
+                  }).catchError((error) {
+                    Utils.toastMessage("Error: ${error.toString()}");
+                  });
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(13),
                   ),
-                  padding:
-                      EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
                   elevation: 10,
                   shadowColor: Colors.deepPurple.withOpacity(0.9),
                   backgroundColor: Colors.deepPurple,
@@ -90,32 +99,32 @@ class _forgetState extends State<forget> {
                 ),
               ),
               SizedBox(height: 10,),
-               // Login navigation
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text(
-                            "Remembered your password?",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => login()));
-                            },
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                  color: Colors.deepPurple,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-            
+
+              // Login navigation
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    "Remembered your password?",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => login()));
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                          color: Colors.deepPurple,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
