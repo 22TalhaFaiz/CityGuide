@@ -70,7 +70,7 @@ class _loginState extends State<login> {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w900),
                 ),
                 Text(
                   "Welcome Back",

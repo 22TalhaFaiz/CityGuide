@@ -46,7 +46,7 @@ class _signupState extends State<signup> {
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 30,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w900),
                   ),
                   const Text(
                     "Create an account to explore the best of the city!",
