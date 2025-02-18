@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/Home.dart';
 import 'package:work/database_service.dart';
+import 'package:work/forgetpassword.dart';
 import 'package:work/signup.dart';
 
 class login extends StatefulWidget {
@@ -140,8 +141,10 @@ class _loginState extends State<login> {
 
                       TextButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //     context, MaterialPageRoute(builder: (context) => signup()));
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => forget()));
                         },
                         child: Text(
                           "Forgot your Password",
