@@ -18,7 +18,7 @@ class _myappState extends State<myapp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,  
-      home: Spalsh(),
+      home: Splash(),
     );
   }
 }
