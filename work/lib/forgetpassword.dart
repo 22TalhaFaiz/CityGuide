@@ -24,11 +24,12 @@ class _forgetState extends State<forget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 40),
+             SizedBox(height: 20),
 
-              /// Back Button
+                /// Back Button
               Align(
                 alignment: Alignment.centerLeft,
+                
                 child: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.deepPurple, size: 30),
                   onPressed: () {
@@ -38,9 +39,9 @@ class _forgetState extends State<forget> {
               ),
 
               Image.asset(
-                "assets/images/Black White Minimalist Monogram Initial Logo (1) - Copy.jpg",
-                width: 200,
-                height: 200,
+                "assets/images/360_F_420325313_0tgC68egfuhtzKf1OhVlZRHG6Dvv36Xt.jpg",
+                width: 300,
+                height: 300,
               ),
               Text(
                 "Forget Your Password",

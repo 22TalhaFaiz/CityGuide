@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/Home.dart';
 import 'package:work/database_service.dart';
+
 import 'package:work/forgetpassword.dart';
 import 'package:work/signup.dart';
+import 'profile.dart';
 
 class login extends StatefulWidget {
   const login({super.key});
@@ -46,7 +48,7 @@ class _loginState extends State<login> {
       // Redirect to Home page
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Home()),
+        MaterialPageRoute(builder: (context) => profile()),
       );
     } else {
       ScaffoldMessenger.of(context)
@@ -153,6 +155,9 @@ class _loginState extends State<login> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
+
+                      
+                     
 
                       SizedBox(height: 10),
 

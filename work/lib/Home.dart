@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/Lp.dart';
-import 'package:work/editprofile.dart';
 import 'package:work/login.dart';
+import 'package:work/profile.dart';
 import 'package:work/signup.dart';
 
 class Home extends StatefulWidget {
@@ -174,29 +174,37 @@ class _HomeState extends State<Home> {
               height: 40,
             ),
             SizedBox(
-              width: double.infinity, // Ensures full width
+              width: double.infinity,
+               // Ensures full width
               child: Row(
+                
                 mainAxisAlignment:
                     MainAxisAlignment.spaceBetween, // Aligns items to both ends
                 children: [
-                  Text(
-                    'Recommendation',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                      fontFamily: 'Roboto',
-                      letterSpacing: 1.5,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Recommendation',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurple,
+                        // fontFamily: 'Roboto',
+                        // letterSpacing: 1.5,
+                      ),
                     ),
                   ),
-                  Text(
-                    'See All',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                      fontFamily: 'Roboto',
-                      letterSpacing: 1.5,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'See All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurple,
+                        // fontFamily: 'Roboto',
+                        
+                      ),
                     ),
                   ),
                 ],
@@ -281,6 +289,7 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+      
     );
   }
 }
