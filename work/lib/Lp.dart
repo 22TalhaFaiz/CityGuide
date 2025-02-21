@@ -150,7 +150,7 @@ class _LpState extends State<Lp> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const lahorepage()),
+                            builder: (context) => const Home()),
                       );
                     },
                     
