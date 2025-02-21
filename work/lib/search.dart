@@ -18,6 +18,7 @@ class _SearchState extends State<Search> {
 return Scaffold(
   backgroundColor: Colors.white,
       body: SingleChildScrollView(
+        
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
