@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:work/Home.dart';
 import 'package:work/Karachi.dart';
+import 'package:work/lahore.dart';
 import 'package:work/login.dart';
 import 'package:work/signup.dart';
 
@@ -148,9 +149,11 @@ class _LpState extends State<Lp> {
                       // Navigate to the Home page
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Home()),
+                        MaterialPageRoute(
+                            builder: (context) => const lahorepage()),
                       );
                     },
+                    
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero, // Remove default padding
                       tapTargetSize: MaterialTapTargetSize

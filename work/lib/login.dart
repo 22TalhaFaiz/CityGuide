@@ -52,7 +52,11 @@ class _loginState extends State<login> {
       );
     } else {
       ScaffoldMessenger.of(context)
+<<<<<<< HEAD
           .showSnackBar(SnackBar(content: Text(result!)));
+=======
+          .showSnackBar(SnackBar(content: Text('result')));
+>>>>>>> d03c8025808ddfb1147fba1fd6dac7e8a318a3a5
     }
   }
 
