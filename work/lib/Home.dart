@@ -2,8 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/Lp.dart';
+import 'package:work/explore.dart';
 import 'package:work/login.dart';
 import 'package:work/profile.dart';
+import 'package:work/search.dart';
 import 'package:work/signup.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart'; // Add this import
 
@@ -38,7 +40,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Center(child: const Text('City Guide' , style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.w900),)),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
         ],
@@ -297,7 +299,22 @@ class _HomeState extends State<Home> {
         context,
         MaterialPageRoute(builder: (context) => Home()), 
       );
-    } else if (index == 3) {
+    } 
+    else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => explore() ),  
+      );
+    }
+    
+    else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Search() ),  
+      );
+    }
+    
+    else if (index == 3) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => profile()),  

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:work/Home.dart';
+import 'package:work/explore.dart';
+import 'package:work/search.dart'; // Add this import
+
 
 class profile extends StatefulWidget {
   const profile({super.key});
@@ -175,6 +180,48 @@ class _profileState extends State<profile> {
           ),
         ),
       ),
+           bottomNavigationBar: ConvexAppBar(
+  style: TabStyle.react,
+  height: 60,
+  items: [
+    TabItem(icon: Icons.home, title: 'Home'),
+    TabItem(icon: Icons.explore, title: 'Explore'),
+    TabItem(icon: Icons.search, title: 'Search'),
+    TabItem(icon: Icons.person, title: 'Profile'),  // ✅ Direct Icon use karein
+  ],
+  initialActiveIndex: 3,
+  backgroundColor: Colors.grey[50],
+  color: Colors.deepPurple,
+  activeColor: Colors.deepPurpleAccent,
+
+  onTap: (int index) {
+    if (index == 0) {  
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()), 
+      );
+    }
+    else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => explore() ),  
+      );
+    }
+    else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Search() ),  
+      );
+    }
+     else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => profile()),  
+      );
+    }
+    
+  },
+)
     );
 
   }
