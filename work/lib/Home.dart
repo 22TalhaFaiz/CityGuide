@@ -5,6 +5,7 @@ import 'package:work/Lp.dart';
 import 'package:work/login.dart';
 import 'package:work/profile.dart';
 import 'package:work/signup.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart'; // Add this import
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -117,7 +118,7 @@ class _HomeState extends State<Home> {
                   ],
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -128,11 +129,9 @@ class _HomeState extends State<Home> {
             CarouselSlider(
               options: CarouselOptions(
                 height: 200, // Set fixed height for the carousel
-                viewportFraction:
-                    0.9, // Adjusts how much of the next/prev image is visible
+                viewportFraction: 0.9, // Adjusts how much of the next/prev image is visible
                 autoPlay: true, // Optional: Enables auto-slide
-                enlargeCenterPage:
-                    true, // Optional: Makes the center image slightly bigger
+                enlargeCenterPage: true, // Optional: Makes the center image slightly bigger
               ),
               items: [
                 'assets/images/Hospital1.jpg',
@@ -147,20 +146,16 @@ class _HomeState extends State<Home> {
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
                       decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(10), // Rounded corners
+                        borderRadius: BorderRadius.circular(10), // Rounded corners
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            10), // Ensures the images follow the container shape
+                        borderRadius: BorderRadius.circular(10), // Ensures the images follow the container shape
                         child: SizedBox(
                           height: 200, // Set fixed height for all images
                           child: Image.asset(
                             imagePath,
-                            fit: BoxFit
-                                .cover, // Ensures all images fill the box proportionally
-                            width: double
-                                .infinity, // Ensures images stretch across the width
+                            fit: BoxFit.cover, // Ensures all images fill the box proportionally
+                            width: double.infinity, // Ensures images stretch across the width
                           ),
                         ),
                       ),
@@ -174,12 +169,9 @@ class _HomeState extends State<Home> {
               height: 40,
             ),
             SizedBox(
-              width: double.infinity,
-               // Ensures full width
+              width: double.infinity, // Ensures full width
               child: Row(
-                
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween, // Aligns items to both ends
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns items to both ends
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -189,8 +181,6 @@ class _HomeState extends State<Home> {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.deepPurple,
-                        // fontFamily: 'Roboto',
-                        // letterSpacing: 1.5,
                       ),
                     ),
                   ),
@@ -202,8 +192,6 @@ class _HomeState extends State<Home> {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.deepPurple,
-                        // fontFamily: 'Roboto',
-                        
                       ),
                     ),
                   ),
@@ -214,10 +202,8 @@ class _HomeState extends State<Home> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: GridView.builder(
-                shrinkWrap:
-                    true, // Important for allowing scrolling inside Column
-                physics:
-                    const NeverScrollableScrollPhysics(), // Prevent nested scrolling
+                shrinkWrap: true, // Important for allowing scrolling inside Column
+                physics: const NeverScrollableScrollPhysics(), // Prevent nested scrolling
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Number of columns
                   crossAxisSpacing: 10, // Horizontal space between cards
@@ -262,21 +248,20 @@ class _HomeState extends State<Home> {
                         );
                       },
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(
                             categories[index]['image']!,
-                            height: 140,
+                            height: 120,
                             width: 220,
                             fit: BoxFit.cover,
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 5),
                           Text(
                             categories[index]['title']!,
                             style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                             
                             ),
                           ),
                         ],
@@ -289,7 +274,21 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      
+      bottomNavigationBar: ConvexAppBar(
+        style: TabStyle.react,
+        items: [
+          TabItem(icon: Icons.home),
+          TabItem(icon: Icons.explore),
+          TabItem(icon: Icons.search),
+          TabItem(icon: Icons.person),
+
+        ],
+        initialActiveIndex: 1,
+        backgroundColor: Colors.grey[50],
+        color: Colors.deepPurple,
+        activeColor: Colors.deepPurpleAccent,
+        onTap: (int i) => print('click index=$i'),
+      ),
     );
   }
 }
