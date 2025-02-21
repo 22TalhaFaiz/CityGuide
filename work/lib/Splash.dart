@@ -1,4 +1,4 @@
-import 'dart:async'; // Correct import for Timer
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:work/Lp.dart';
 
@@ -13,17 +13,19 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
+    _loadDataAndNavigate();
+  }
 
-    // Set a timer to navigate after 4 seconds
-    Timer(Duration(seconds: 4), () {
-      // Ensure the context is still valid for navigation
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Lp()),
-        );
-      }
-    });
+  Future<void> _loadDataAndNavigate() async {
+    // Simulating a network request or data fetching
+    await Future.delayed(Duration(seconds: 4)); // Replace this with actual data fetching
+    
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Lp()), // Ensure Lp has required data
+      );
+    }
   }
 
   @override
@@ -41,12 +43,11 @@ class _SplashState extends State<Splash> {
                   width: 500,
                   height: 500,
                 ),
-                
-                 CircularProgressIndicator(
-                    strokeWidth: 6,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurple,
-                  ),
-                 ),
+                const SizedBox(height: 20),
+                CircularProgressIndicator(
+                  strokeWidth: 6,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurple),
+                ),
               ],
             ),
           ),

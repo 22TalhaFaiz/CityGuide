@@ -44,7 +44,7 @@ class _forgetState extends State<forget> {
                 height: 300,
               ),
               Text(
-                "Forget Your Password",
+                "Reset Your Password",
                 style: TextStyle(
                     color: Colors.deepPurple,
                     fontSize: 30,

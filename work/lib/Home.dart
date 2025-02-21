@@ -264,6 +264,7 @@ class _HomeState extends State<Home> {
                              
                             ),
                           ),
+                        
                         ],
                       ),
                     ),
@@ -275,20 +276,35 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.react,
-        items: [
-          TabItem(icon: Icons.home),
-          TabItem(icon: Icons.explore),
-          TabItem(icon: Icons.search),
-          TabItem(icon: Icons.person),
+  style: TabStyle.react,
+  height: 60,
+  items: [
+    TabItem(icon: Icons.home, title: 'Home'),
+    TabItem(icon: Icons.explore, title: 'Explore'),
+    TabItem(icon: Icons.search, title: 'Search'),
+    TabItem(icon: Icons.person, title: 'Profile'),  // ✅ Direct Icon use karein
+  ],
+  initialActiveIndex: 0,
+  backgroundColor: Colors.grey[50],
+  color: Colors.deepPurple,
+  activeColor: Colors.deepPurpleAccent,
 
-        ],
-        initialActiveIndex: 1,
-        backgroundColor: Colors.grey[50],
-        color: Colors.deepPurple,
-        activeColor: Colors.deepPurpleAccent,
-        onTap: (int i) => print('click index=$i'),
-      ),
+  onTap: (int index) {
+    if (index == 0) {  
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()), 
+      );
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => profile()),  
+      );
+    }
+    
+  },
+)
+,
     );
   }
 }

@@ -200,7 +200,7 @@ class _signupState extends State<signup> {
                                         builder: (context) => login()));
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(result)),
+                                  SnackBar(content: Text(result!)),
                                 );
                               }
                             },

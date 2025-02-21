@@ -48,11 +48,11 @@ class _loginState extends State<login> {
       // Redirect to Home page
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => profile()),
+        MaterialPageRoute(builder: (context) => Home()),
       );
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(result)));
+          .showSnackBar(SnackBar(content: Text(result!)));
     }
   }
 
@@ -149,7 +149,7 @@ class _loginState extends State<login> {
                                       builder: (context) => forget()));
                         },
                         child: Text(
-                          "Forgot your Password",
+                          "Reset your Password",
                           style: TextStyle(
                               color: Colors.deepPurple,
                               fontWeight: FontWeight.bold),
