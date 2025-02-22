@@ -1,8 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:work/Abbotabad.dart';
+import 'package:work/Islamabad.dart';
+import 'package:work/Karachi.dart';
 import 'package:work/Lp.dart';
+import 'package:work/lahore.dart';
 import 'package:work/login.dart';
+import 'package:work/multan.dart';
 import 'package:work/profile.dart';
 import 'package:work/signup.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart'; // Add this import
@@ -115,6 +120,50 @@ class _HomeState extends State<Home> {
                         );
                       },
                     ),
+                    //Karachi Page
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text('Karachi'),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => KarachiPage()));
+                      },
+                    ),
+                    //Lahore
+                    //Karachi Page
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text('Lahore'),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => lahorepage()));
+                      },
+                    ),
+                    //Multan
+                    // Page
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text('Multan'),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => Multan()));
+                      },
+                    ),
+                    //Karachi Page
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text('Abbottabad'),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => Abbottabad()));
+                      },
+                    ),
                   ],
                 ],
               ),
@@ -129,9 +178,11 @@ class _HomeState extends State<Home> {
             CarouselSlider(
               options: CarouselOptions(
                 height: 200, // Set fixed height for the carousel
-                viewportFraction: 0.9, // Adjusts how much of the next/prev image is visible
+                viewportFraction:
+                    0.9, // Adjusts how much of the next/prev image is visible
                 autoPlay: true, // Optional: Enables auto-slide
-                enlargeCenterPage: true, // Optional: Makes the center image slightly bigger
+                enlargeCenterPage:
+                    true, // Optional: Makes the center image slightly bigger
               ),
               items: [
                 'assets/images/Hospital1.jpg',
@@ -146,16 +197,20 @@ class _HomeState extends State<Home> {
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10), // Rounded corners
+                        borderRadius:
+                            BorderRadius.circular(10), // Rounded corners
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10), // Ensures the images follow the container shape
+                        borderRadius: BorderRadius.circular(
+                            10), // Ensures the images follow the container shape
                         child: SizedBox(
                           height: 200, // Set fixed height for all images
                           child: Image.asset(
                             imagePath,
-                            fit: BoxFit.cover, // Ensures all images fill the box proportionally
-                            width: double.infinity, // Ensures images stretch across the width
+                            fit: BoxFit
+                                .cover, // Ensures all images fill the box proportionally
+                            width: double
+                                .infinity, // Ensures images stretch across the width
                           ),
                         ),
                       ),
@@ -171,7 +226,8 @@ class _HomeState extends State<Home> {
             SizedBox(
               width: double.infinity, // Ensures full width
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns items to both ends
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween, // Aligns items to both ends
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -202,8 +258,10 @@ class _HomeState extends State<Home> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: GridView.builder(
-                shrinkWrap: true, // Important for allowing scrolling inside Column
-                physics: const NeverScrollableScrollPhysics(), // Prevent nested scrolling
+                shrinkWrap:
+                    true, // Important for allowing scrolling inside Column
+                physics:
+                    const NeverScrollableScrollPhysics(), // Prevent nested scrolling
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Number of columns
                   crossAxisSpacing: 10, // Horizontal space between cards
@@ -238,14 +296,43 @@ class _HomeState extends State<Home> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        // Navigate to a new page for the selected category
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CategoryPage(
-                                category: categories[index]['title']!),
-                          ),
-                        );
+                        switch (categories[index]['title']) {
+                          case 'Karachi':
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => KarachiPage()));
+                            break;
+                          case 'Lahore':
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => lahorepage()));
+                            break;
+                          case 'Abbottabad':
+                            // If Islamabad page is available
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Abbottabad()));
+                            break;
+                          case 'Multan':
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Multan()));
+                            break;
+                          case 'Islamabad':
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => IslamabadPage()));
+                            break;
+
+                          default:
+                            // Agar koi page available nahi hai toh kuch mat karo
+                            break;
+                        }
                       },
                       child: Column(
                         // mainAxisAlignment: MainAxisAlignment.center,
@@ -260,9 +347,7 @@ class _HomeState extends State<Home> {
                           const SizedBox(height: 5),
                           Text(
                             categories[index]['title']!,
-                            style: const TextStyle(
-                             
-                            ),
+                            style: const TextStyle(),
                           ),
                         ],
                       ),
@@ -281,7 +366,6 @@ class _HomeState extends State<Home> {
           TabItem(icon: Icons.explore),
           TabItem(icon: Icons.search),
           TabItem(icon: Icons.person),
-
         ],
         initialActiveIndex: 1,
         backgroundColor: Colors.grey[50],

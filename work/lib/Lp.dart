@@ -149,11 +149,9 @@ class _LpState extends State<Lp> {
                       // Navigate to the Home page
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const lahorepage()),
+                        MaterialPageRoute(builder: (context) => const Home()),
                       );
                     },
-                    
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero, // Remove default padding
                       tapTargetSize: MaterialTapTargetSize
