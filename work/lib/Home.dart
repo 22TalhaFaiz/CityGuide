@@ -120,50 +120,6 @@ class _HomeState extends State<Home> {
                         );
                       },
                     ),
-                    //Karachi Page
-                    ListTile(
-                      leading: const Icon(Icons.person),
-                      title: const Text('Karachi'),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) => KarachiPage()));
-                      },
-                    ),
-                    //Lahore
-                    //Karachi Page
-                    ListTile(
-                      leading: const Icon(Icons.person),
-                      title: const Text('Lahore'),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) => lahorepage()));
-                      },
-                    ),
-                    //Multan
-                    // Page
-                    ListTile(
-                      leading: const Icon(Icons.person),
-                      title: const Text('Multan'),
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (builder) => Multan()));
-                      },
-                    ),
-                    //Karachi Page
-                    ListTile(
-                      leading: const Icon(Icons.person),
-                      title: const Text('Abbottabad'),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) => Abbottabad()));
-                      },
-                    ),
                   ],
                 ],
               ),
