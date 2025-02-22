@@ -5,10 +5,12 @@ import 'package:work/Abbotabad.dart';
 import 'package:work/Islamabad.dart';
 import 'package:work/Karachi.dart';
 import 'package:work/Lp.dart';
+import 'package:work/explore.dart';
 import 'package:work/lahore.dart';
 import 'package:work/login.dart';
 import 'package:work/multan.dart';
 import 'package:work/profile.dart';
+import 'package:work/search.dart';
 import 'package:work/signup.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart'; // Add this import
 
@@ -294,11 +296,17 @@ class _HomeState extends State<Home> {
                         // mainAxisAlignment: MainAxisAlignment.center,
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            categories[index]['image']!,
-                            height: 120,
-                            width: 220,
-                            fit: BoxFit.cover,
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                            ),
+                            child: Image.asset(
+                              categories[index]['image']!,
+                              height: 120,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           const SizedBox(height: 5),
                           Text(
@@ -315,20 +323,49 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.react,
-        items: [
-          TabItem(icon: Icons.home),
-          TabItem(icon: Icons.explore),
-          TabItem(icon: Icons.search),
-          TabItem(icon: Icons.person),
-        ],
-        initialActiveIndex: 1,
-        backgroundColor: Colors.grey[50],
-        color: Colors.deepPurple,
-        activeColor: Colors.deepPurpleAccent,
-        onTap: (int i) => print('click index=$i'),
-      ),
+           bottomNavigationBar: ConvexAppBar(
+  style: TabStyle.react,
+  height: 60,
+  items: [
+    TabItem(icon: Icons.home, title: 'Home'),
+    TabItem(icon: Icons.explore, title: 'Explore'),
+    TabItem(icon: Icons.search, title: 'Search'),
+    TabItem(icon: Icons.person, title: 'Profile'),  // ✅ Direct Icon use karein
+  ],
+  initialActiveIndex: 0,
+  backgroundColor: Colors.grey[50],
+  color: Colors.deepPurple,
+  activeColor: Colors.deepPurpleAccent,
+
+  onTap: (int index) {
+    if (index == 0) {  
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()), 
+      );
+    }
+
+    else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => explore() ),  
+      );
+    }
+    else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Search() ),  
+      );
+    }
+     else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => profile()),  
+      );
+    }
+    
+  },
+),
     );
   }
 }

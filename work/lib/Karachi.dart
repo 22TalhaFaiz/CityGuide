@@ -76,12 +76,17 @@ class KarachiPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Image for the attraction
-                          Image.asset(
-                            karachiAttractions[index]['image']!,
-                            height: 140,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
+                        ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                            ),
+                            child: Image.asset(
+                              karachiAttractions[index]['image']!,
+                              height: 120,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           const SizedBox(height: 8),  // Space between image and text
 
