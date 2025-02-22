@@ -150,7 +150,7 @@ class _loginState extends State<login> {
                           Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => forget()));
+                                      builder: (context) => Forget()));
                         },
                         child: Text(
                           "Reset your Password",
@@ -264,7 +264,7 @@ class _loginState extends State<login> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => signup()));
+                                      builder: (context) => Signup()));
                             },
                             child: Text(
                               "Signup",

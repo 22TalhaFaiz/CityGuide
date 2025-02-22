@@ -38,7 +38,7 @@ class _profileState extends State<profile> {
 
               
 
-                SizedBox(height: 50),
+                SizedBox(height: 10),
                  const Text(
                   "Create Profile",
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900 , color: Colors.deepPurple),

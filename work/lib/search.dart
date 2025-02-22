@@ -16,6 +16,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
 return Scaffold(
+  
   backgroundColor: Colors.white,
       body: SingleChildScrollView(
         
@@ -24,7 +25,7 @@ return Scaffold(
           child: Row(
           
             children: <Widget>[
-
+              SizedBox(height: 80,),
                Align(
                 alignment: Alignment.centerLeft,
                 child: IconButton(
