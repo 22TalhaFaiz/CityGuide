@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (builder) => const signup()));
+                                builder: (builder) => const Signup()));
                       },
                     ),
                   ] else ...[

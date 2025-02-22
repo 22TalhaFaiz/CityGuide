@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/database_service.dart';
 import 'package:work/login.dart';
 
-class signup extends StatefulWidget {
-  const signup({super.key});
+class Signup extends StatefulWidget {
+  const Signup({super.key});
 
   @override
-  State<signup> createState() => _signupState();
+  State<Signup> createState() => _SignupState();
 }
 
-class _signupState extends State<signup> {
+class _SignupState extends State<Signup> {
   final _dbService = DatabaseService();
 
   final _name = TextEditingController();
@@ -28,6 +28,7 @@ class _signupState extends State<signup> {
     _password.dispose();
     _phone.dispose();
   }
+  
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,6 +111,8 @@ class _signupState extends State<signup> {
                               fillColor: Colors.orangeAccent[50],
                               filled: true,
                             ),
+                      
+                          
                           ),
                         ),
                         SizedBox(height: 20),
@@ -200,7 +203,11 @@ class _signupState extends State<signup> {
                                         builder: (context) => login()));
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('result')),
+
+                                  SnackBar(content: Text(result!)),
+
+                                 
+
                                 );
                               }
                             },
@@ -318,8 +325,5 @@ class _signupState extends State<signup> {
   }
 }
 
-  // Function for social media button styling
- 
-    
   
 
