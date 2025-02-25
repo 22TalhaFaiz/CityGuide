@@ -271,9 +271,17 @@ class _loginState extends State<login> {
                           TextButton(
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Signup()));
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => Signup(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
+        child: child,
+      );
+    },
+  ),
+);
                             },
                             child: Text(
                               "Signup",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:work/Lp.dart';
+import 'Lp.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -21,10 +22,18 @@ class _SplashState extends State<Splash> {
     await fetchData(); // Load data first
 
     if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Lp()), // Navigate when data is ready
+         Navigator.push(
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => Lp(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
+        child: child,
       );
+    },
+  ),
+);
     }
   }
 
