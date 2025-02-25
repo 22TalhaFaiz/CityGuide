@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:work/Splash.dart';
 import 'package:work/firebase_options.dart';
+import 'package:get/get.dart';
 
 
 
@@ -16,7 +17,7 @@ class myapp extends StatefulWidget {
 class _myappState extends State<myapp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,  
       home: Splash(),
     );
