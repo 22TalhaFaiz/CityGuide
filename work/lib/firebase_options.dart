@@ -41,48 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBR-FWtqhzi9nvJg0NBTrTaOuv7yr38T0Y',
-    appId: '1:125320758727:web:12b8641ba8098eda4dc5e2',
-    messagingSenderId: '125320758727',
-    projectId: 'city-guide-d829b',
-    authDomain: 'city-guide-d829b.firebaseapp.com',
-    storageBucket: 'city-guide-d829b.firebasestorage.app',
-    measurementId: 'G-2T2VTSVSM0',
+    apiKey: 'AIzaSyBXjCmBDXca2qAkDX7CNXdio-HMRgdl-LQ',
+    appId: '1:72146461489:web:343c7be8e0bf14e0d68610',
+    messagingSenderId: '72146461489',
+    projectId: 'cityguide-3db9a',
+    authDomain: 'cityguide-3db9a.firebaseapp.com',
+    storageBucket: 'cityguide-3db9a.firebasestorage.app',
+    measurementId: 'G-52GBCNDLJY',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBGb94XmmgO6pUgZ2mKH6HYnIIlxnU00vY',
-    appId: '1:125320758727:android:a800c9d42b80f9604dc5e2',
-    messagingSenderId: '125320758727',
-    projectId: 'city-guide-d829b',
-    storageBucket: 'city-guide-d829b.firebasestorage.app',
+    apiKey: 'AIzaSyDWfPjF0C2MC87P6CBPuth5FLicflASwzA',
+    appId: '1:72146461489:android:246a0290f158ba7ad68610',
+    messagingSenderId: '72146461489',
+    projectId: 'cityguide-3db9a',
+    storageBucket: 'cityguide-3db9a.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCyJN86kcDKM1ptg0D-ipezqSapQa-UJB0',
-    appId: '1:125320758727:ios:0e2a3844c57a15a34dc5e2',
-    messagingSenderId: '125320758727',
-    projectId: 'city-guide-d829b',
-    storageBucket: 'city-guide-d829b.firebasestorage.app',
+    apiKey: 'AIzaSyAVS66H9obPxNZ3Q-p51UfnePrX2gBFS4Y',
+    appId: '1:72146461489:ios:8e015c20c0a33a6bd68610',
+    messagingSenderId: '72146461489',
+    projectId: 'cityguide-3db9a',
+    storageBucket: 'cityguide-3db9a.firebasestorage.app',
     iosBundleId: 'com.example.work',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCyJN86kcDKM1ptg0D-ipezqSapQa-UJB0',
-    appId: '1:125320758727:ios:0e2a3844c57a15a34dc5e2',
-    messagingSenderId: '125320758727',
-    projectId: 'city-guide-d829b',
-    storageBucket: 'city-guide-d829b.firebasestorage.app',
+    apiKey: 'AIzaSyAVS66H9obPxNZ3Q-p51UfnePrX2gBFS4Y',
+    appId: '1:72146461489:ios:8e015c20c0a33a6bd68610',
+    messagingSenderId: '72146461489',
+    projectId: 'cityguide-3db9a',
+    storageBucket: 'cityguide-3db9a.firebasestorage.app',
     iosBundleId: 'com.example.work',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBR-FWtqhzi9nvJg0NBTrTaOuv7yr38T0Y',
-    appId: '1:125320758727:web:72cf1d9d86be95324dc5e2',
-    messagingSenderId: '125320758727',
-    projectId: 'city-guide-d829b',
-    authDomain: 'city-guide-d829b.firebaseapp.com',
-    storageBucket: 'city-guide-d829b.firebasestorage.app',
-    measurementId: 'G-X9SBZ4H7N4',
+    apiKey: 'AIzaSyBXjCmBDXca2qAkDX7CNXdio-HMRgdl-LQ',
+    appId: '1:72146461489:web:02b2833c75e02fd8d68610',
+    messagingSenderId: '72146461489',
+    projectId: 'cityguide-3db9a',
+    authDomain: 'cityguide-3db9a.firebaseapp.com',
+    storageBucket: 'cityguide-3db9a.firebasestorage.app',
+    measurementId: 'G-9DJ4GGKGJG',
   );
 }
