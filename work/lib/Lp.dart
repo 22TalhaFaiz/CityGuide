@@ -180,6 +180,7 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:work/detail.dart';
 import 'package:work/login.dart';
 import 'package:work/signup.dart';
 import 'package:get/get.dart';
@@ -237,6 +238,30 @@ class _LpState extends State<Lp> {
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                     ),
                   ),
+                                       TextButton(
+                        onPressed: () {
+                         Navigator.push(
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => detail(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
+        child: child,
+      );
+    },
+  ),
+);
+
+                        },
+                        child: Text(
+                          "dtail",
+                          style: TextStyle(
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+
                   SizedBox(height: 60),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
