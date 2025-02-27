@@ -84,6 +84,7 @@ class _ProfileState extends State<Profile> {
 
               // Profile Image
               GestureDetector(
+                
                 child: CircleAvatar(
                   backgroundColor: Colors.grey[300],
                   radius: 50,
