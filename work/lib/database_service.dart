@@ -1,27 +1,28 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   // Register User and Store Data in Firestore
   Future<String?> createUser(
       String name, String email, String phone, String password) async {
     try {
-      // Firebase Authentication
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Save user data in Firestore without storing the password
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         'name': name,
         'email': email,
         'phone': phone,
-        'password': password,
+        'password': password, // Consider not storing the password in Firestore
       });
 
       return "User registered successfully!";
@@ -33,7 +34,6 @@ class DatabaseService {
   // Login User
   Future<String?> loginUser(String email, String password) async {
     try {
-      // Your Firebase login logic goes here
       await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -43,5 +43,42 @@ class DatabaseService {
     } catch (e) {
       return "Login Failed: ${e.toString()}";
     }
+  }
+
+  // =================== CITY MANAGEMENT ===================
+
+  // Fetch City from Firestore
+  Future<List<Map<String, dynamic>>> getCity() async {
+    QuerySnapshot snapshot = await _firestore.collection('cities').get();
+    return snapshot.docs
+        .map((doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>})
+        .toList();
+  }
+
+  // Add New Category
+  Future<void> addCity(String title, File imageFile) async {
+    try {
+      String imageUrl = await _uploadImage(imageFile, title);
+
+      await _firestore.collection('cities').add({
+        'title': title,
+        'image_url': imageUrl,
+      });
+    } catch (e) {
+      print("Error adding cities: $e");
+    }
+  }
+
+  // Upload Image to Firebase Storage
+  Future<String> _uploadImage(File imageFile, String title) async {
+    Reference ref = _storage.ref().child('cities_images/$title.jpg');
+    UploadTask uploadTask = ref.putFile(imageFile);
+    TaskSnapshot snapshot = await uploadTask;
+    return await snapshot.ref.getDownloadURL();
+  }
+
+  // Delete Category
+  Future<void> deleteCity(String cityId) async {
+    await _firestore.collection('cities').doc(cityId).delete();
   }
 }

@@ -5,6 +5,7 @@ import 'package:work/Abbotabad.dart';
 import 'package:work/Islamabad.dart';
 import 'package:work/Karachi.dart';
 import 'package:work/Lp.dart';
+import 'package:work/database_service.dart';
 import 'package:work/explore.dart';
 import 'package:work/lahore.dart';
 import 'package:work/login.dart';
@@ -24,11 +25,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String userName = "Guest";
   String userEmail = "guest@example.com";
+  final DatabaseService _databaseService = DatabaseService();
+  List<Map<String, dynamic>> cities = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _fetchCities();
   }
 
   _loadUserData() async {
@@ -36,6 +41,15 @@ class _HomeState extends State<Home> {
     setState(() {
       userName = prefs.getString('userName') ?? 'Guest';
       userEmail = prefs.getString('userEmail') ?? 'guest@example.com';
+    });
+  }
+
+  // Fetch categories from Firestore
+  void _fetchCities() async {
+    List<Map<String, dynamic>> fetchedCity = await _databaseService.getCity();
+    setState(() {
+      cities = fetchedCity;
+      isLoading = false;
     });
   }
 
@@ -212,160 +226,142 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            // Categories Section
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: GridView.builder(
-                shrinkWrap:
-                    true, // Important for allowing scrolling inside Column
-                physics:
-                    const NeverScrollableScrollPhysics(), // Prevent nested scrolling
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Number of columns
-                  crossAxisSpacing: 10, // Horizontal space between cards
-                  mainAxisSpacing: 10, // Vertical space between cards
-                  childAspectRatio: 1.0, // Aspect ratio for each card
-                ),
-                itemCount: 6, // Number of categories
-                itemBuilder: (context, index) {
-                  // Define category data manually
-                  List<Map<String, String>> categories = [
-                    {'image': 'assets/images/Tomb.JPG', 'title': 'Karachi'},
-                    {
-                      'image': 'assets/images/Lahore Museum.jpg',
-                      'title': 'Lahore'
-                    },
-                    {
-                      'image': 'assets/images/Faisal Mosqueisla.jpg',
-                      'title': 'Islamabad'
-                    },
-                    {
-                      'image': 'assets/images/Hospital1.jpg',
-                      'title': 'Abbottabad'
-                    },
-                    {'image': 'assets/images/Park.jpeg', 'title': 'Multan'},
-                    {'image': 'assets/images/Hotel.jpeg', 'title': 'Hotels'},
-                  ];
-
-                  return Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        switch (categories[index]['title']) {
-                          case 'Karachi':
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => KarachiPage()));
-                            break;
-                          case 'Lahore':
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => lahorepage()));
-                            break;
-                          case 'Abbottabad':
-                            // If Islamabad page is available
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Abbottabad()));
-                            break;
-                          case 'Multan':
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Multan()));
-                            break;
-                          case 'Islamabad':
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => IslamabadPage()));
-                            break;
-
-                          default:
-                            // Agar koi page available nahi hai toh kuch mat karo
-                            break;
-                        }
-                      },
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                            ),
-                            child: Image.asset(
-                              categories[index]['image']!,
-                              height: 120,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            categories[index]['title']!,
-                            style: const TextStyle(),
-                          ),
-                        ],
+              child: isLoading
+                  ? const Center(
+                      child:
+                          CircularProgressIndicator()) // Show loading while fetching
+                  : GridView.builder(
+                      shrinkWrap: true, // Prevents infinite height issue
+                      physics:
+                          const NeverScrollableScrollPhysics(), // Disable GridView scrolling
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1.0,
                       ),
+                      itemCount: cities.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              switch (cities[index]['title']) {
+                                case 'Karachi':
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => KarachiPage()));
+                                  break;
+                                case 'Lahore':
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => lahorepage()));
+                                  break;
+                                case 'Multan':
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Multan()));
+                                  break;
+                                case 'Islamabad':
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              IslamabadPage()));
+                                  break;
+                                case 'Abbottabad':
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Abbottabad()));
+                                  break;
+                                default:
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CategoryPage(
+                                          category: cities[index]['title']),
+                                    ),
+                                  );
+                                  break;
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
+                                  ),
+                                  child: Image.network(
+                                    cities[index]['image_url'],
+                                    height: 120,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  cities[index]['title'],
+                                  style: const TextStyle(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),
       ),
-           bottomNavigationBar: ConvexAppBar(
-  style: TabStyle.react,
-  height: 60,
-  items: [
-    TabItem(icon: Icons.home, title: 'Home'),
-    TabItem(icon: Icons.explore, title: 'Explore'),
-    TabItem(icon: Icons.search, title: 'Search'),
-    TabItem(icon: Icons.person, title: 'Profile'),  // ✅ Direct Icon use karein
-  ],
-  initialActiveIndex: 0,
-  backgroundColor: Colors.grey[50],
-  color: Colors.deepPurple,
-  activeColor: Colors.deepPurpleAccent,
-
-  onTap: (int index) {
-    if (index == 0) {  
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()), 
-      );
-    }
-
-    else if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => explore() ),  
-      );
-    }
-    else if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Search() ),  
-      );
-    }
-     else if (index == 3) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Profile()),  
-      );
-    }
-    
-  },
-),
+      bottomNavigationBar: ConvexAppBar(
+        style: TabStyle.react,
+        height: 60,
+        items: [
+          TabItem(icon: Icons.home, title: 'Home'),
+          TabItem(icon: Icons.explore, title: 'Explore'),
+          TabItem(icon: Icons.search, title: 'Search'),
+          TabItem(
+              icon: Icons.person, title: 'Profile'), // ✅ Direct Icon use karein
+        ],
+        initialActiveIndex: 0,
+        backgroundColor: Colors.grey[50],
+        color: Colors.deepPurple,
+        activeColor: Colors.deepPurpleAccent,
+        onTap: (int index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          } else if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => explore()),
+            );
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Search()),
+            );
+          } else if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Profile()),
+            );
+          }
+        },
+      ),
     );
   }
 }
