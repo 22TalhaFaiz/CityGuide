@@ -181,6 +181,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:work/detail.dart';
+import 'package:work/explore.dart';
 import 'package:work/login.dart';
 import 'package:work/signup.dart';
 import 'package:get/get.dart';
