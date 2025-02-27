@@ -243,7 +243,7 @@ class _LpState extends State<Lp> {
                          Navigator.push(
   context,
   PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => detail(),
+    pageBuilder: (context, animation, secondaryAnimation) => Detail(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return FadeTransition(
         opacity: animation,
