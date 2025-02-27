@@ -57,7 +57,7 @@ class _exploreState extends State<explore> {
     else if (index == 3) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => profile()),  
+        MaterialPageRoute(builder: (context) => Profile()),  
       );
     }
     

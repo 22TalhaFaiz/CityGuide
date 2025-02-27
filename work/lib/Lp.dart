@@ -238,29 +238,6 @@ class _LpState extends State<Lp> {
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                     ),
                   ),
-                                       TextButton(
-                        onPressed: () {
-                         Navigator.push(
-  context,
-  PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => Detail(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(
-        opacity: animation,
-        child: child,
-      );
-    },
-  ),
-);
-
-                        },
-                        child: Text(
-                          "dtail",
-                          style: TextStyle(
-                              color: Colors.deepPurple,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
 
                   SizedBox(height: 60),
                   Padding(

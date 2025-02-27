@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
                       title: const Text('Profile'),
                       onTap: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => profile()));
+                            MaterialPageRoute(builder: (context) => Profile()));
                       },
                     ),
                     ListTile(
@@ -360,7 +360,7 @@ class _HomeState extends State<Home> {
      else if (index == 3) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => profile()),  
+        MaterialPageRoute(builder: (context) => Profile()),  
       );
     }
     

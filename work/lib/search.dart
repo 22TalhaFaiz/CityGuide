@@ -106,7 +106,7 @@ return Scaffold(
      else if (index == 3) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => profile()),  
+        MaterialPageRoute(builder: (context) => Profile()),  
       );
     }
     
