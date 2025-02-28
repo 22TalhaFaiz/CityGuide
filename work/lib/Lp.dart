@@ -180,6 +180,7 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:work/Home.dart';
 import 'package:work/detail.dart';
 import 'package:work/explore.dart';
 import 'package:work/login.dart';
@@ -253,7 +254,7 @@ class _LpState extends State<Lp> {
                                 Navigator.push(
   context,
   PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => Signup(),
+    pageBuilder: (context, animation, secondaryAnimation) => Home(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return FadeTransition(
         opacity: animation,
