@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
               child: ListView(
                 children: [
                   ListTile(
-                    leading: const Icon(Icons.home),
+                    leading: const Icon(Icons.home,color: Colors.blue,),
                     title: const Text('Home'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
@@ -88,6 +88,69 @@ class _HomeState extends State<Home> {
                       }
                     },
                   ),
+
+                    ListTile(
+                    leading: const Icon(Icons.location_city,color: Colors.brown,),
+                    title: const Text('Place to visit'),
+                    onTap: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+
+                    ListTile(
+                    leading: const Icon(Icons.restaurant_outlined,color: Colors.yellow,),
+                    title: const Text(' Resturent'),
+                    onTap: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+
+                      ListTile(
+                    leading: const Icon(Icons.hotel ,color: Colors.grey,),
+                    title: const Text(' stay & Hotels'),
+                    onTap: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+
+                  
+                      ListTile(
+                    leading: const Icon(Icons.event_available ,color: Colors.orange,),
+                    title: const Text(' Events & Festivals'),
+                    onTap: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                    ListTile(
+                    leading: const Icon(Icons.shopping_bag,color: Colors.purple,),
+                    title: const Text(' Shopping & Markets'),
+                    onTap: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+
+                  
+                    ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text(' Setting'),
+                    onTap: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                  
+                  
                   if (userEmail == "guest@example.com") ...[
                     ListTile(
                       leading: const Icon(Icons.person),
@@ -109,7 +172,7 @@ class _HomeState extends State<Home> {
                     ),
                   ] else ...[
                     ListTile(
-                      leading: const Icon(Icons.account_circle),
+                      leading: const Icon(Icons.account_circle,color: Colors.green,),
                       title: const Text('Profile'),
                       onTap: () {
                         Navigator.push(context,
@@ -117,7 +180,7 @@ class _HomeState extends State<Home> {
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.logout),
+                      leading: const Icon(Icons.logout,color: Colors.red,),
                       title: const Text('Logout'),
                       onTap: () async {
                         SharedPreferences prefs =
