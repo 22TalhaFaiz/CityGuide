@@ -59,8 +59,8 @@ class _exploreState extends State<explore> {
         ),
       ),
       bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.react,
-        height: 60,
+        style: TabStyle.reactCircle,
+        height: 50,
         items: [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.explore, title: 'Explore'),

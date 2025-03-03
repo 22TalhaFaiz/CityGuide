@@ -54,15 +54,17 @@ class _HomeState extends State<Home> {
   }
  bool _notificationsEnabled = true;
  bool _notificationsdisable = false;
+ 
 
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Center(child: const Text('City Guide ',style: TextStyle(color: Colors.deepPurple,fontWeight: FontWeight.w900),)),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          IconButton(onPressed: () {Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => Search()));}, icon: const Icon(Icons.search),color: Colors.deepPurple,),
         ],
       ),
       drawer: Drawer(
@@ -401,6 +403,10 @@ ListTile(
                 );
               }).toList(),
             ),
+
+
+
+            
             // Recommendation
             SizedBox(
               height: 40,
@@ -457,8 +463,10 @@ ListTile(
                       itemBuilder: (context, index) {
                         return Card(
                           elevation: 5,
+                          color: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
+                            
                           ),
                           child: InkWell(
                             onTap: () {
@@ -535,8 +543,8 @@ ListTile(
         ),
       ),
       bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.react,
-        height: 60,
+        style: TabStyle.reactCircle,
+        height: 50,
         items: [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.explore, title: 'Explore'),
@@ -545,9 +553,9 @@ ListTile(
               icon: Icons.person, title: 'Profile'), // ✅ Direct Icon use karein
         ],
         initialActiveIndex: 0,
-        backgroundColor: Colors.grey[50],
+        backgroundColor: Colors.white,
         color: Colors.deepPurple,
-        activeColor: Colors.deepPurpleAccent,
+        activeColor: Colors.deepPurple,
         onTap: (int index) {
           if (index == 0) {
             Navigator.push(
