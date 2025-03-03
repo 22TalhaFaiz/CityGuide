@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:work/Home.dart';
 import 'package:work/database_service.dart';
+import 'package:work/detail.dart';
 import 'package:work/profile.dart';
 import 'package:work/search.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -13,35 +14,97 @@ class explore extends StatefulWidget {
 }
 
 class _exploreState extends State<explore> {
-  final DatabaseService _dbservice  = DatabaseService();
+  final DatabaseService _dbService = DatabaseService();
+  String selectedCategory = "All";
+  bool highestRated = true;
+
+  List<String> categories = [
+    "All",
+    "Attractions",
+    "Hotels",
+    "Events",
+    "Restaurants"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-     backgroundColor: Colors.white,
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _dbservice.getCategories(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text("No categories available"));
-          }
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          const SizedBox(height: 60),
 
-          List<Map<String, dynamic>> categories = snapshot.data!;
-
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          // Filters
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(height: 60),
-                ...categories.map((category) => categoryCard(category)).toList(),
+                // Category Dropdown
+                DropdownButton<String>(
+                  value: selectedCategory,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedCategory = newValue!;
+                    });
+                  },
+                  items: categories.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+
+                // Sort by Rating
+                Row(
+                  children: [
+                    const Text("Lowest"),
+                    Switch(
+                      value: highestRated,
+                      onChanged: (bool value) {
+                        setState(() {
+                          highestRated = value;
+                        });
+                      },
+                    ),
+                    const Text("Highest"),
+                  ],
+                ),
               ],
             ),
-          );
-        },
+          ),
+
+          // Fetch & Display Listings
+          Expanded(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: _dbService.getListings(
+                category: selectedCategory,
+                highestRated: highestRated,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text("No listings available"));
+                }
+
+                List<Map<String, dynamic>> listings = snapshot.data!;
+
+                return ListView.builder(
+                  itemCount: listings.length,
+                  itemBuilder: (context, index) {
+                    return listingCard(listings[index], context);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
+
+      // Bottom Navigation Bar
       bottomNavigationBar: ConvexAppBar(
         style: TabStyle.reactCircle,
         height: 50,
@@ -57,72 +120,116 @@ class _exploreState extends State<explore> {
         activeColor: Colors.deepPurpleAccent,
         onTap: (int index) {
           if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home()),
-            );
-          } else if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => explore()),
-            );
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => const Home()));
           } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Search()),
-            );
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const Search()));
           } else if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Profile()),
-            );
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const Profile()));
           }
         },
       ),
     );
   }
 
-  Widget categoryCard(Map<String, dynamic> category) {
+  // UI for Listing Card
+  Widget listingCard(Map<String, dynamic> listing, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 325,
-        height: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          gradient: LinearGradient(
-             colors: [
-              Color(int.parse(category['color1'].replaceFirst('#', '0xff'))),
-              Color(int.parse(category['color2'].replaceFirst('#', '0xff')))
-            ], 
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                category['title'], // Using title from Firestore
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        elevation: 4,
+        shadowColor: Colors.black26,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(15),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    Detail(listing: listing), // Navigate to Detail
+              ),
+            );
+          },
+          child: Row(
+            children: [
+              // Listing Image
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                ),
+                child: Image.network(
+                  listing['image_url'] ?? "",
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.image_not_supported,
+                      size: 100,
+                      color: Colors.grey),
                 ),
               ),
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(60),
-              child: Image.network(
-                category['image_url'], // Loading image from URL
-                height: 100,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Icon(Icons.error, size: 60),
+
+              // Listing Info
+              Expanded(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Name
+                      Text(
+                        listing['name'] ?? "Unnamed Listing",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                      const SizedBox(height: 4),
+
+                      // Description
+                      Text(
+                        listing['description'] ?? "No description available",
+                        style: const TextStyle(
+                            fontSize: 14, color: Colors.black54),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      // Rating Row
+                      Row(
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 18),
+                          const SizedBox(width: 4),
+                          Text(
+                            "${listing['rating'] ?? 'N/A'} ⭐",
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ],
+
+              // Arrow Icon
+              const Padding(
+                padding: EdgeInsets.only(right: 12),
+                child:
+                    Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey),
+              ),
+            ],
+          ),
         ),
       ),
     );

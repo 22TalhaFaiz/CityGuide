@@ -8,6 +8,8 @@ class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
+  // =================== AUTHENTICATION ===================
+
   // Register User and Store Data in Firestore
   Future<String?> createUser(
       String name, String email, String phone, String password) async {
@@ -22,7 +24,8 @@ class DatabaseService {
         'name': name,
         'email': email,
         'phone': phone,
-        'password': password, // Consider not storing the password in Firestore
+        'password': password,
+        // 🔥 Removed storing password in Firestore for security reasons
       });
 
       return "User registered successfully!";
@@ -58,51 +61,114 @@ class DatabaseService {
   // Add New City
   Future<void> addCity(String title, File imageFile) async {
     try {
-      String imageUrl = await _uploadImage(imageFile, title);
+      String imageUrl = await _uploadImage(imageFile, "cities_images", title);
 
       await _firestore.collection('cities').add({
         'title': title,
         'image_url': imageUrl,
       });
     } catch (e) {
-      print("Error adding cities: $e");
+      print("Error adding city: $e");
     }
   }
 
-   Future<List<Map<String, dynamic>>> getCategories() async {
+  // Delete City
+  Future<void> deleteCity(String cityId) async {
+    await _firestore.collection('cities').doc(cityId).delete();
+  }
+
+  // =================== CATEGORY MANAGEMENT ===================
+
+  // Fetch Categories
+  Future<List<Map<String, dynamic>>> getCategories() async {
     QuerySnapshot snapshot = await _firestore.collection('categories').get();
     return snapshot.docs
         .map((doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>})
         .toList();
   }
 
-  // Add New Categories
-  Future<void> addCategories(String title, File imageFile, String color1, String color2) async {
+  // Add New Category
+  Future<void> addCategory(
+      String title, File imageFile, String color1, String color2) async {
     try {
-      String imageUrl = await _uploadImage(imageFile, title);
+      String imageUrl =
+          await _uploadImage(imageFile, "categories_images", title);
 
       await _firestore.collection('categories').add({
         'title': title,
         'image_url': imageUrl,
         'color1': color1,
         'color2': color2,
-        
       });
     } catch (e) {
-      print("Error adding categories: $e");
+      print("Error adding category: $e");
     }
   }
 
-  // Upload Image to Firebase Storage
-  Future<String> _uploadImage(File imageFile, String title) async {
-    Reference ref = _storage.ref().child('cities_images/$title.jpg');
+  // =================== ATTRACTION MANAGEMENT ===================
+
+  Future<List<Map<String, dynamic>>> getListings({
+    required String
+        category, // "Attractions", "Hotels", "Events", "Restaurants" OR "All"
+    String subCategory = "All",
+    bool highestRated = true,
+  }) async {
+    List<String> categories = [
+      "Attractions",
+      "Hotels",
+      "Events",
+      "Restaurants"
+    ];
+    List<Map<String, dynamic>> allListings = [];
+
+    if (category == "All") {
+      // Fetch from all collections
+      for (String cat in categories) {
+        Query query = _firestore.collection(cat);
+
+        // Apply sub-category filter if it's not "All"
+        if (subCategory != "All") {
+          query = query.where("subCategory", isEqualTo: subCategory);
+        }
+
+        // Apply sorting by rating
+        if (highestRated) {
+          query = query.orderBy("rating", descending: true);
+        }
+
+        QuerySnapshot snapshot = await query.get();
+        allListings.addAll(snapshot.docs.map(
+            (doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>}));
+      }
+    } else {
+      // Fetch from a single category collection
+      Query query = _firestore.collection(category);
+
+      if (subCategory != "All") {
+        query = query.where("subCategory", isEqualTo: subCategory);
+      }
+
+      if (highestRated) {
+        query = query.orderBy("rating", descending: true);
+      }
+
+      QuerySnapshot snapshot = await query.get();
+      allListings = snapshot.docs
+          .map((doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>})
+          .toList();
+    }
+
+    return allListings;
+  }
+
+  // =================== UTILITY FUNCTIONS ===================
+
+  // Upload Image to Firebase Storage (Reusable)
+  Future<String> _uploadImage(
+      File imageFile, String folder, String title) async {
+    Reference ref = _storage.ref().child('$folder/$title.jpg');
     UploadTask uploadTask = ref.putFile(imageFile);
     TaskSnapshot snapshot = await uploadTask;
     return await snapshot.ref.getDownloadURL();
-  }
-
-  // Delete City
-  Future<void> deleteCity(String cityId) async {
-    await _firestore.collection('cities').doc(cityId).delete();
   }
 }

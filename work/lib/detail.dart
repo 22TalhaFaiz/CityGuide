@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Detail extends StatefulWidget {
-  const Detail({super.key});
+  final Map<String, dynamic> listing; // Accept listing data
+
+  const Detail({Key? key, required this.listing}) : super(key: key);
 
   @override
   State<Detail> createState() => _DetailState();
@@ -12,16 +14,17 @@ class _DetailState extends State<Detail> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height; // Get screen height
-    double screenWidth = MediaQuery.of(context).size.width; // Get screen width
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
           width: screenWidth,
-          height: screenHeight, // Set fixed height
+          height: screenHeight,
           child: Stack(
             children: [
+              // Listing Image
               Positioned(
                 left: 0,
                 right: 0,
@@ -30,18 +33,20 @@ class _DetailState extends State<Detail> {
                   height: 300,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/Lahore Museum.jpg"),
+                      image: NetworkImage(widget.listing['image_url'] ?? ""),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
+
+              // Details Section
               Positioned(
                 top: 270,
                 child: Container(
                   width: screenWidth,
-                  height: screenHeight - 270, // Adjust height dynamically
-                  decoration: BoxDecoration(
+                  height: screenHeight - 270,
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
@@ -51,27 +56,45 @@ class _DetailState extends State<Detail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
+
+                      // Name & Price
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 14.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Museum", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
-                            Text("PKR 10,000", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.deepPurple)),
+                            Text(
+                              widget.listing['name'] ?? "Unknown Place",
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w900),
+                            ),
+                            Text(
+                              "PKR ${widget.listing['price'] ?? 'N/A'}",
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.deepPurple),
+                            ),
                           ],
                         ),
                       ),
+
+                      // Location
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Icon(Icons.location_on_rounded, color: Colors.grey),
-                            SizedBox(width: 5),
-                            Text("Lahore, Pakistan"),
+                            const Icon(Icons.location_on_rounded,
+                                color: Colors.grey),
+                            const SizedBox(width: 5),
+                            Text(widget.listing['location'] ??
+                                "Location not available"),
                           ],
                         ),
                       ),
+
+                      // Rating
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -80,25 +103,44 @@ class _DetailState extends State<Detail> {
                             Icon(Icons.star, color: Colors.yellow),
                             Icon(Icons.star, color: Colors.yellow),
                             Icon(Icons.star, color: Colors.yellow),
-                            Icon(Icons.star_outline_outlined, color: Colors.grey),
+                            Icon(Icons.star_outline_outlined,
+                                color: Colors.grey),
                             SizedBox(width: 10),
-                            Text("[4.0]", style: TextStyle(color: Colors.grey, fontSize: 12)),
+                            Text(
+                              "[${double.tryParse(widget.listing['rating'].toString()) ?? 0.0}]",
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+
+                      const SizedBox(height: 20),
+
+                      // Description
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Description", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.black)),
+                        child: const Text(
+                          "Description",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.black),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          "The Lahore Museum, established in 1865 during the British colonial era, is the largest and oldest museum in Pakistan. Located on Mall Road.",
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
+                          widget.listing['description'] ??
+                              "No description available.",
+                          style:
+                              const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       ),
-                      Spacer(),
+
+                      const Spacer(),
+
+                      // Like Button & Book Now
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -111,7 +153,9 @@ class _DetailState extends State<Detail> {
                               ),
                               child: IconButton(
                                 icon: Icon(
-                                  isLiked ? Icons.favorite : Icons.favorite_border,
+                                  isLiked
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
                                   color: isLiked ? Colors.red : Colors.grey,
                                 ),
                                 onPressed: () {
@@ -121,7 +165,7 @@ class _DetailState extends State<Detail> {
                                 },
                               ),
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {},
@@ -129,19 +173,22 @@ class _DetailState extends State<Detail> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(13),
                                   ),
-                                  padding: const EdgeInsets.symmetric(vertical: 20),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
                                   elevation: 10,
-                                  shadowColor: Colors.deepPurple.withOpacity(0.9),
+                                  shadowColor:
+                                      Colors.deepPurple.withOpacity(0.9),
                                   backgroundColor: Colors.deepPurple,
                                   foregroundColor: Colors.white,
                                 ),
-                                child: Text("Book Trip Now"),
+                                child: const Text("View Map"),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
