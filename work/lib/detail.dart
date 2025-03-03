@@ -69,13 +69,13 @@ class _DetailState extends State<Detail> {
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w900),
                             ),
-                            Text(
-                              "PKR ${widget.listing['price'] ?? 'N/A'}",
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.deepPurple),
-                            ),
+                            // Text(
+                            //   "PKR ${widget.listing['price'] ?? 'N/A'}",
+                            //   style: const TextStyle(
+                            //       fontSize: 20,
+                            //       fontWeight: FontWeight.w900,
+                            //       color: Colors.deepPurple),
+                            // ),
                           ],
                         ),
                       ),

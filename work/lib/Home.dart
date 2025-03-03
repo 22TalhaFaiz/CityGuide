@@ -52,19 +52,29 @@ class _HomeState extends State<Home> {
       isLoading = false;
     });
   }
- bool _notificationsEnabled = true;
- bool _notificationsdisable = false;
- 
+
+  bool _notificationsEnabled = true;
+  bool _notificationsdisable = false;
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text('City Guide ',style: TextStyle(color: Colors.deepPurple,fontWeight: FontWeight.w900),)),
+        title: Center(
+            child: const Text(
+          'City Guide ',
+          style:
+              TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.w900),
+        )),
         actions: [
-          IconButton(onPressed: () {Navigator.push(context,
-                            MaterialPageRoute(builder: (builder) => Search()));}, icon: const Icon(Icons.search),color: Colors.deepPurple,),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (builder) => Search()));
+            },
+            icon: const Icon(Icons.search),
+            color: Colors.deepPurple,
+          ),
         ],
       ),
       drawer: Drawer(
@@ -85,7 +95,10 @@ class _HomeState extends State<Home> {
               child: ListView(
                 children: [
                   ListTile(
-                    leading: const Icon(Icons.home,color: Colors.blue,),
+                    leading: const Icon(
+                      Icons.home,
+                      color: Colors.blue,
+                    ),
                     title: const Text('Home'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
@@ -93,9 +106,11 @@ class _HomeState extends State<Home> {
                       }
                     },
                   ),
-
-                    ListTile(
-                    leading: const Icon(Icons.location_city,color: Colors.brown,),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.location_city,
+                      color: Colors.brown,
+                    ),
                     title: const Text('Place to visit'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
@@ -103,9 +118,11 @@ class _HomeState extends State<Home> {
                       }
                     },
                   ),
-
-                    ListTile(
-                    leading: const Icon(Icons.restaurant_outlined,color: Colors.yellow,),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.restaurant_outlined,
+                      color: Colors.yellow,
+                    ),
                     title: const Text(' Resturent'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
@@ -113,9 +130,11 @@ class _HomeState extends State<Home> {
                       }
                     },
                   ),
-
-                      ListTile(
-                    leading: const Icon(Icons.hotel ,color: Colors.grey,),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.hotel,
+                      color: Colors.grey,
+                    ),
                     title: const Text(' stay & Hotels'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
@@ -123,10 +142,11 @@ class _HomeState extends State<Home> {
                       }
                     },
                   ),
-
-                  
-                      ListTile(
-                    leading: const Icon(Icons.event_available ,color: Colors.orange,),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.event_available,
+                      color: Colors.orange,
+                    ),
                     title: const Text(' Events & Festivals'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
@@ -134,8 +154,11 @@ class _HomeState extends State<Home> {
                       }
                     },
                   ),
-                    ListTile(
-                    leading: const Icon(Icons.shopping_bag,color: Colors.purple,),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.shopping_bag,
+                      color: Colors.purple,
+                    ),
                     title: const Text(' Shopping & Markets'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
@@ -143,163 +166,191 @@ class _HomeState extends State<Home> {
                       }
                     },
                   ),
-ListTile(
-      leading: const Icon(Icons.settings),
-      title: const Text('Settings'),
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Settings'),
-              content: SizedBox(
-                width: 500, // Adjust width
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Notification Toggle Switch
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Enable Notifications"),
-                        Switch(
-                          value: _notificationsEnabled,
-                    
-
-                          onChanged: (bool value) {
-                            setState(() {
-                              _notificationsEnabled = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Cards Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // Notifications Card
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop(); // Close first dialog
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Notifications'),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      if (_notificationsEnabled) ...[
-                                        ListTile(
-                                          leading: const Icon(Icons.notifications, color: Colors.blue),
-                                          title: const Text('New message received'),
-                                        ),
-                                        ListTile(
-                                          leading: const Icon(Icons.notifications, color: Colors.blue),
-                                          title: const Text('Your booking is confirmed'),
-                                        ),
-                                      ] else
-                                        const Text("Notifications are disabled"),
-                                    ],
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.of(context).pop(),
-                                      child: const Text('Close'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: Card(
-                            elevation: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
+                  ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text('Settings'),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Settings'),
+                            content: SizedBox(
+                              width: 500, // Adjust width
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(Icons.notifications, size: 40, color: Colors.blue),
-                                  const SizedBox(height: 8),
-                                  const Text('Notifications', style: TextStyle(fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // Favorites Card
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop(); // Close first dialog
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Favorites'),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
+                                  // Notification Toggle Switch
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      ListTile(
-                                        leading: const Icon(Icons.favorite, color: Colors.red),
-                                        title: const Text('Favorite Place: Eiffel Tower'),
-                                      ),
-                                      ListTile(
-                                        leading: const Icon(Icons.favorite, color: Colors.red),
-                                        title: const Text('Favorite Restaurant: ABC Cafe'),
+                                      const Text("Enable Notifications"),
+                                      Switch(
+                                        value: _notificationsEnabled,
+                                        onChanged: (bool value) {
+                                          setState(() {
+                                            _notificationsEnabled = value;
+                                          });
+                                        },
                                       ),
                                     ],
                                   ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.of(context).pop(),
-                                      child: const Text('Close'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: Card(
-                            elevation: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.favorite, size: 40, color: Colors.red),
-                                  const SizedBox(height: 8),
-                                  const Text('Favorites', style: TextStyle(fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 20),
+
+                                  // Cards Row
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      // Notifications Card
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close first dialog
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title:
+                                                    const Text('Notifications'),
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    if (_notificationsEnabled) ...[
+                                                      ListTile(
+                                                        leading: const Icon(
+                                                            Icons.notifications,
+                                                            color: Colors.blue),
+                                                        title: const Text(
+                                                            'New message received'),
+                                                      ),
+                                                      ListTile(
+                                                        leading: const Icon(
+                                                            Icons.notifications,
+                                                            color: Colors.blue),
+                                                        title: const Text(
+                                                            'Your booking is confirmed'),
+                                                      ),
+                                                    ] else
+                                                      const Text(
+                                                          "Notifications are disabled"),
+                                                  ],
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(),
+                                                    child: const Text('Close'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Card(
+                                          elevation: 5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(Icons.notifications,
+                                                    size: 40,
+                                                    color: Colors.blue),
+                                                const SizedBox(height: 8),
+                                                const Text('Notifications',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                      // Favorites Card
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close first dialog
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text('Favorites'),
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    ListTile(
+                                                      leading: const Icon(
+                                                          Icons.favorite,
+                                                          color: Colors.red),
+                                                      title: const Text(
+                                                          'Favorite Place: Eiffel Tower'),
+                                                    ),
+                                                    ListTile(
+                                                      leading: const Icon(
+                                                          Icons.favorite,
+                                                          color: Colors.red),
+                                                      title: const Text(
+                                                          'Favorite Restaurant: ABC Cafe'),
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(),
+                                                    child: const Text('Close'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Card(
+                                          elevation: 5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(Icons.favorite,
+                                                    size: 40,
+                                                    color: Colors.red),
+                                                const SizedBox(height: 8),
+                                                const Text('Favorites',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close dialog
-                  },
-                  child: const Text('Close'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    ),
-
-
-                  
-                  
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Close dialog
+                                },
+                                child: const Text('Close'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                   if (userEmail == "guest@example.com") ...[
                     ListTile(
                       leading: const Icon(Icons.person),
@@ -321,7 +372,10 @@ ListTile(
                     ),
                   ] else ...[
                     ListTile(
-                      leading: const Icon(Icons.account_circle,color: Colors.green,),
+                      leading: const Icon(
+                        Icons.account_circle,
+                        color: Colors.green,
+                      ),
                       title: const Text('Profile'),
                       onTap: () {
                         Navigator.push(context,
@@ -329,7 +383,10 @@ ListTile(
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.logout,color: Colors.red,),
+                      leading: const Icon(
+                        Icons.logout,
+                        color: Colors.red,
+                      ),
                       title: const Text('Logout'),
                       onTap: () async {
                         SharedPreferences prefs =
@@ -404,9 +461,6 @@ ListTile(
               }).toList(),
             ),
 
-
-
-            
             // Recommendation
             SizedBox(
               height: 40,
@@ -466,7 +520,6 @@ ListTile(
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
-                            
                           ),
                           child: InkWell(
                             onTap: () {
@@ -481,7 +534,7 @@ ListTile(
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => lahorepage()));
+                                          builder: (context) => lahorePage()));
                                   break;
                                 case 'Multan':
                                   Navigator.push(
@@ -500,7 +553,7 @@ ListTile(
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Abbottabad()));
+                                          builder: (context) => Abbotabad()));
                                   break;
                                 default:
                                   Navigator.push(

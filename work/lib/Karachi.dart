@@ -1,123 +1,203 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'detail.dart';
 
 class KarachiPage extends StatelessWidget {
   const KarachiPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Karachi'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Optionally, add a header or title
-            const Text(
-              'Explore Karachi Attractions',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),  // Space between header and grid
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('karachi').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return const Center(child: Text("Error loading attractions"));
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text("No attractions found."));
+          }
 
-            // The grid view that contains all cards
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,  // 2 columns
-                  crossAxisSpacing: 10, // Horizontal space between items
-                  mainAxisSpacing: 10, // Vertical space between items
-                  childAspectRatio: 1.0, // Aspect ratio for each item
-                ),
-                itemCount: 6, // Number of items to show in the grid
-                itemBuilder: (context, index) {
-                  List<Map<String, String>> karachiAttractions = [
-                    {
-                      'image': 'assets/images/Sea1.webp',
-                      'title': 'Karachi Beach',
-                      'description': 'A beautiful beach with stunning views.',
-                    },
-                    {
-                      'image': 'assets/images/Mall1.jpg',
-                      'title': 'Mall',
-                      'description': 'A famous area with shopping centers and restaurants.',
-                    },
-                    {
-                      'image': 'assets/images/karachitower.jpg',
-                      'title': 'Karachi Tower',
-                      'description': 'An iconic tower offering panoramic city views.',
-                    },
-                    {
-                      'image': 'assets/images/karachiZoo.jfif',
-                      'title': 'Karachi Zoo',
-                      'description': 'A large zoo featuring a variety of animals.',
-                    },
-                    {
-                      'image': 'assets/images/paf museum Karachi.jpg',
-                      'title': 'Karachi Museum',
-                      'description': 'A museum displaying the rich history of the city.',
-                    },
-                    {
-                      'image': 'assets/images/Tomb.JPG',
-                      'title': 'Tomb',
-                      'description': 'A modern shopping mall with international brands.',
-                    },
-                  ];
+          var attractions = snapshot.data!.docs;
 
-                  return Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        // Handle "See Location" button click, navigate to a new page showing the location
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                        ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                            ),
-                            child: Image.asset(
-                              karachiAttractions[index]['image']!,
-                              height: 120,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(height: 8),  // Space between image and text
-
-                          // Title of the attraction
-                          Text(
-                            karachiAttractions[index]['title']!,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),  // Space between title and description
-
-                          // Description of the attraction
-                          Text(
-                            karachiAttractions[index]['description']!,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          const SizedBox(height: 8),  // Space before button
-                        ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                // Top Image
+                Stack(
+                  children: [
+                    Container(
+                      width: screenWidth,
+                      height: 300,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/Tomb.JPG"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  );
-                },
-              ),
+                    Positioned(
+                      top: 40,
+                      left: 10,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back,
+                            color: Colors.white, size: 28),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ),
+                    const Positioned(
+                      top: 250,
+                      left: 20,
+                      child: Text(
+                        "Explore Karachi",
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          shadows: [Shadow(blurRadius: 4, color: Colors.black)],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                // List of Attractions
+                Container(
+                  width: screenWidth,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: attractions.length,
+                    itemBuilder: (context, index) {
+                      var data =
+                          attractions[index].data() as Map<String, dynamic>;
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Detail(listing: data),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 6,
+                                  color: Colors.grey.withOpacity(0.2))
+                            ],
+                          ),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            elevation: 3,
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    bottomLeft: Radius.circular(15),
+                                  ),
+                                  child: Image.network(
+                                    data['image_url'] ?? '',
+                                    height: 100,
+                                    width: 120,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error,
+                                            stackTrace) =>
+                                        const Icon(Icons.image_not_supported,
+                                            size: 50, color: Colors.grey),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data['title'] ?? 'Unknown Place',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.location_on,
+                                                size: 16, color: Colors.red),
+                                            const SizedBox(width: 5),
+                                            Expanded(
+                                              child: Text(
+                                                data['location'] ??
+                                                    'Location not available',
+                                                style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.star,
+                                                size: 16, color: Colors.yellow),
+                                            const Icon(Icons.star,
+                                                size: 16, color: Colors.yellow),
+                                            const Icon(Icons.star,
+                                                size: 16, color: Colors.yellow),
+                                            const Icon(Icons.star,
+                                                size: 16, color: Colors.yellow),
+                                            const Icon(Icons.star_half,
+                                                size: 16, color: Colors.yellow),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              "[${double.tryParse(data['rating'].toString()) ?? 0.0}]",
+                                              style: const TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
