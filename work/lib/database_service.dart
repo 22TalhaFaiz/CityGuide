@@ -55,7 +55,7 @@ class DatabaseService {
         .toList();
   }
 
-  // Add New Category
+  // Add New City
   Future<void> addCity(String title, File imageFile) async {
     try {
       String imageUrl = await _uploadImage(imageFile, title);
@@ -69,6 +69,30 @@ class DatabaseService {
     }
   }
 
+   Future<List<Map<String, dynamic>>> getCategories() async {
+    QuerySnapshot snapshot = await _firestore.collection('categories').get();
+    return snapshot.docs
+        .map((doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>})
+        .toList();
+  }
+
+  // Add New Categories
+  Future<void> addCategories(String title, File imageFile, String color1, String color2) async {
+    try {
+      String imageUrl = await _uploadImage(imageFile, title);
+
+      await _firestore.collection('categories').add({
+        'title': title,
+        'image_url': imageUrl,
+        'color1': color1,
+        'color2': color2,
+        
+      });
+    } catch (e) {
+      print("Error adding categories: $e");
+    }
+  }
+
   // Upload Image to Firebase Storage
   Future<String> _uploadImage(File imageFile, String title) async {
     Reference ref = _storage.ref().child('cities_images/$title.jpg');
@@ -77,7 +101,7 @@ class DatabaseService {
     return await snapshot.ref.getDownloadURL();
   }
 
-  // Delete Category
+  // Delete City
   Future<void> deleteCity(String cityId) async {
     await _firestore.collection('cities').doc(cityId).delete();
   }

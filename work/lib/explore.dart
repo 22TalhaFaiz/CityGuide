@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:work/Home.dart';
+import 'package:work/database_service.dart';
 import 'package:work/profile.dart';
 import 'package:work/search.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -12,51 +13,34 @@ class explore extends StatefulWidget {
 }
 
 class _exploreState extends State<explore> {
+  final DatabaseService _dbservice  = DatabaseService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       
-      backgroundColor: Colors.white,
-      
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 60),
-           
-            Row(
-              
-              mainAxisAlignment: MainAxisAlignment.center,
+     backgroundColor: Colors.white,
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _dbservice.getCategories(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text("No categories available"));
+          }
+
+          List<Map<String, dynamic>> categories = snapshot.data!;
+
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                cityCard('Karachi', 'assets/images/detailed-vector-illustration-mazar-e-quaid-situated-karachi-pakistan-136445372.webp', [Colors.purple, Colors.white]),
+                const SizedBox(height: 60),
+                ...categories.map((category) => categoryCard(category)).toList(),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                cityCard('Lahore', 'assets/images/images.jpeg', [Colors.blue, Colors.white]),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                cityCard('Islamabad', 'assets/images/trendy-faisal-mosque-vector.jpg', [Colors.red, Colors.white]),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                cityCard('Multan', 'assets/images/images.png', [Colors.green, Colors.white]),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                cityCard('Abbottabad', 'assets/images/pngtree-cartoon-hillside-landscape-sticker-vector-png-image_11088666.png', [Colors.deepOrange, Colors.white]),
-              ],
-            ),
-          ],
-        ),
+          );
+        },
       ),
       bottomNavigationBar: ConvexAppBar(
         style: TabStyle.reactCircle,
@@ -98,16 +82,19 @@ class _exploreState extends State<explore> {
     );
   }
 
-  Widget cityCard(String name, String imagePath, List<Color> gradientColors) {
+  Widget categoryCard(Map<String, dynamic> category) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         width: 325,
         height: 100,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
+          borderRadius: BorderRadius.circular(25),
           gradient: LinearGradient(
-            colors: gradientColors,
+             colors: [
+              Color(int.parse(category['color1'].replaceFirst('#', '0xff'))),
+              Color(int.parse(category['color2'].replaceFirst('#', '0xff')))
+            ], 
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
@@ -118,7 +105,7 @@ class _exploreState extends State<explore> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(
-                name,
+                category['title'], // Using title from Firestore
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -128,10 +115,11 @@ class _exploreState extends State<explore> {
             ),
             ClipRRect(
               borderRadius: BorderRadius.circular(60),
-              child: Image.asset(
-                imagePath,
+              child: Image.network(
+                category['image_url'], // Loading image from URL
                 height: 100,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Icon(Icons.error, size: 60),
               ),
             ),
           ],
