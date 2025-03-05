@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Detail extends StatefulWidget {
   final Map<String, dynamic> listing; // Accept listing data
@@ -11,6 +13,18 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   bool isLiked = false; // Initial state
+
+  // Function to open Google Maps for directions
+  Future<void> openDirections(double latitude, double longitude) async {
+    final String googleMapsUrl =
+        "https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude";
+
+    if (await canLaunch(googleMapsUrl)) {
+      await launch(googleMapsUrl);
+    } else {
+      throw 'Could not launch Google Maps';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +83,6 @@ class _DetailState extends State<Detail> {
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w900),
                             ),
-                            // Text(
-                            //   "PKR ${widget.listing['price'] ?? 'N/A'}",
-                            //   style: const TextStyle(
-                            //       fontSize: 20,
-                            //       fontWeight: FontWeight.w900,
-                            //       color: Colors.deepPurple),
-                            // ),
                           ],
                         ),
                       ),
@@ -131,10 +138,8 @@ class _DetailState extends State<Detail> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          widget.listing['description'] ??
-                              "No description available.",
-                          style:
-                              const TextStyle(fontSize: 18, color: Colors.grey),
+                          widget.listing['description'] ?? "No description available.",
+                          style: const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       ),
 
@@ -168,7 +173,18 @@ class _DetailState extends State<Detail> {
                             const SizedBox(width: 20),
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  // Navigate to the map page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LocationMapPage(
+                                        latitude: widget.listing['latitude'],
+                                        longitude: widget.listing['longitude'],
+                                      ),
+                                    ),
+                                  );
+                                },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(13),
@@ -196,6 +212,34 @@ class _DetailState extends State<Detail> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+// LocationMapPage to show Google Map
+class LocationMapPage extends StatelessWidget {
+  final double latitude;
+  final double longitude;
+
+  const LocationMapPage({Key? key, required this.latitude, required this.longitude}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Location Map")),
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: LatLng(latitude, longitude),
+          zoom: 14.0,
+        ),
+        markers: {
+          Marker(
+            markerId: MarkerId('location'),
+            position: LatLng(latitude, longitude),
+            infoWindow: InfoWindow(title: 'Location'),
+          ),
+        },
       ),
     );
   }
