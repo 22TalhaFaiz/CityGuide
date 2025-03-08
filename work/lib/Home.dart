@@ -426,11 +426,11 @@ class _HomeState extends State<Home> {
                     true, // Optional: Makes the center image slightly bigger
               ),
               items: [
-                'assets/images/Hospital1.jpg',
-                'assets/images/Hotel.jpeg',
-                'assets/images/Mall1.jpg',
-                'assets/images/Sea1.webp',
-                'assets/images/Park.jpeg',
+                'assets/images/1920px-Faisal_Masjid_From_Damn_e_koh.jpg',
+                'assets/images/Abbottabad-2.jpg',
+                'assets/images/Best-Western-Hotel-Rawalpindi-Central-800x445.jpg',
+                'assets/images/download (1).jpeg',
+                'assets/images/Hawkes-Bay-Karachi.jpg',
               ].map((imagePath) {
                 return Builder(
                   builder: (BuildContext context) {
