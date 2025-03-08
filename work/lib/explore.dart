@@ -18,13 +18,7 @@ class _exploreState extends State<explore> {
   String selectedCategory = "All";
   bool highestRated = true;
 
-  List<String> categories = [
-    "All",
-    "Attractions",
-    "Hotels",
-    "Events",
-    "Restaurants"
-  ];
+  List<String> categories = ["All", "Attractions", "Hotels", "Restaurants"];
 
   @override
   Widget build(BuildContext context) {

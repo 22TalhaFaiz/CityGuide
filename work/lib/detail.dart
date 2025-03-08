@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:work/LocationMap.dart';
 
 class Detail extends StatefulWidget {
   final Map<String, dynamic> listing; // Accept listing data
@@ -14,16 +15,19 @@ class Detail extends StatefulWidget {
 class _DetailState extends State<Detail> {
   bool isLiked = false; // Initial state
 
-  // Function to open Google Maps for directions
-  Future<void> openDirections(double latitude, double longitude) async {
-    final String googleMapsUrl =
-        "https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude";
-
-    if (await canLaunch(googleMapsUrl)) {
-      await launch(googleMapsUrl);
-    } else {
-      throw 'Could not launch Google Maps';
-    }
+  // Function to open the map as a popup
+  void openMapPopup() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Makes it fullscreen
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => LocationMapPopup(
+        latitude: widget.listing['latitude'],
+        longitude: widget.listing['longitude'],
+      ),
+    );
   }
 
   @override
@@ -72,7 +76,7 @@ class _DetailState extends State<Detail> {
                     children: [
                       const SizedBox(height: 30),
 
-                      // Name & Price
+                      // Name
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 14.0),
                         child: Row(
@@ -138,14 +142,16 @@ class _DetailState extends State<Detail> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          widget.listing['description'] ?? "No description available.",
-                          style: const TextStyle(fontSize: 18, color: Colors.grey),
+                          widget.listing['description'] ??
+                              "No description available.",
+                          style:
+                              const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       ),
 
                       const Spacer(),
 
-                      // Like Button & Book Now
+                      // Like Button & View Map
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -173,18 +179,7 @@ class _DetailState extends State<Detail> {
                             const SizedBox(width: 20),
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {
-                                  // Navigate to the map page
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LocationMapPage(
-                                        latitude: widget.listing['latitude'],
-                                        longitude: widget.listing['longitude'],
-                                      ),
-                                    ),
-                                  );
-                                },
+                                onPressed: openMapPopup, // Open map popup
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(13),
@@ -212,34 +207,6 @@ class _DetailState extends State<Detail> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-// LocationMapPage to show Google Map
-class LocationMapPage extends StatelessWidget {
-  final double latitude;
-  final double longitude;
-
-  const LocationMapPage({Key? key, required this.latitude, required this.longitude}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Location Map")),
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(latitude, longitude),
-          zoom: 14.0,
-        ),
-        markers: {
-          Marker(
-            markerId: MarkerId('location'),
-            position: LatLng(latitude, longitude),
-            infoWindow: InfoWindow(title: 'Location'),
-          ),
-        },
       ),
     );
   }

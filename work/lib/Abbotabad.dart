@@ -12,7 +12,7 @@ class Abbotabad extends StatelessWidget {
 
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('Abottabad').snapshots(),
+        stream: FirebaseFirestore.instance.collection('abbottabad').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -37,8 +37,7 @@ class Abbotabad extends StatelessWidget {
                       height: 300,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image:
-                              AssetImage("assets/images/Faisal Mosqueisla.jpg"),
+                          image: AssetImage("assets/images/hill.jpg"),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -56,7 +55,7 @@ class Abbotabad extends StatelessWidget {
                       top: 250,
                       left: 20,
                       child: Text(
-                        "Explore Islamabad",
+                        "Explore Abbottabad",
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,

@@ -3,8 +3,6 @@
         android:label="work"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:name="com.google.android.geo.API_KEY"
-        android:value="YOUR_GOOGLE_MAPS_API_KEY"
         >
         <activity
             android:name=".MainActivity"

@@ -137,7 +137,7 @@ class Multan extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          data['title'] ?? 'Unknown Place',
+                                          data['name'] ?? 'Unknown Place',
                                           style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
