@@ -58,7 +58,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Center(
             child: const Text(
@@ -113,9 +115,9 @@ class _HomeState extends State<Home> {
                     ),
                     title: const Text('Place to visit'),
                     onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
+                       Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => explore()));
+                    
                     },
                   ),
                   ListTile(
@@ -125,9 +127,8 @@ class _HomeState extends State<Home> {
                     ),
                     title: const Text(' Resturent'),
                     onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
+                      Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => explore()));
                     },
                   ),
                   ListTile(
@@ -135,11 +136,11 @@ class _HomeState extends State<Home> {
                       Icons.hotel,
                       color: Colors.grey,
                     ),
-                    title: const Text(' stay & Hotels'),
+                    title: const Text('  Hotels'),
                     onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
+                     Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => explore()));
+                      
                     },
                   ),
                   ListTile(
@@ -147,11 +148,11 @@ class _HomeState extends State<Home> {
                       Icons.event_available,
                       color: Colors.orange,
                     ),
-                    title: const Text(' Events & Festivals'),
+                    title: const Text(' Events'),
                     onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
+                       Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => explore()));
+                      
                     },
                   ),
                   ListTile(
@@ -161,9 +162,9 @@ class _HomeState extends State<Home> {
                     ),
                     title: const Text(' Shopping & Markets'),
                     onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
+                       Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => explore()));
+                    
                     },
                   ),
                   ListTile(
@@ -484,14 +485,30 @@ class _HomeState extends State<Home> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'See All',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
+                    child:  TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) => explore(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "See All",
+                          style: TextStyle(
+                            fontSize: 16,
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
+
                   ),
                 ],
               ),
