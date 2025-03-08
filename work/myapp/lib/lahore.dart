@@ -29,7 +29,12 @@ class _LahoreState extends State<Lahore> {
         .toList(); // Add 'id' for each document
     setState(() {
       _products = rawdata;
-      _filteredProducts = rawdata; // Initially display all products
+      _filteredProducts = List.from(rawdata)
+        ..sort((a, b) {
+          double ratingA = double.tryParse(a["rating"].toString()) ?? 0.0;
+          double ratingB = double.tryParse(b["rating"].toString()) ?? 0.0;
+          return ratingB.compareTo(ratingA); // Sort descending
+        });
       isLoading = false;
     });
   }
@@ -95,7 +100,13 @@ class _LahoreState extends State<Lahore> {
     final TextEditingController subcategoryController =
         TextEditingController(text: Attraction["subCategory"]);
     final TextEditingController ratingController =
-        TextEditingController(text: Attraction["rating"]);
+        TextEditingController(text: Attraction["rating"].toString());
+    final TextEditingController longitudeController =
+        TextEditingController(text: Attraction["longitude"].toString());
+    final TextEditingController latitudeController =
+        TextEditingController(text: Attraction["latitude"].toString());
+    final TextEditingController location =
+        TextEditingController(text: Attraction["location"]);
 
     showDialog(
       context: context,
@@ -145,6 +156,32 @@ class _LahoreState extends State<Lahore> {
                 ),
                 style: TextStyle(color: Colors.black),
               ),
+              TextField(
+                controller: longitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Longitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: latitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Latitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: location,
+                decoration: InputDecoration(
+                  labelText: 'Location',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+              ),
             ],
           ),
           actions: [
@@ -159,7 +196,10 @@ class _LahoreState extends State<Lahore> {
                   "image_url": imageurl.text,
                   "name": name.text,
                   "subCategory": subcategoryController.text,
-                  "rating": ratingController.text,
+                  "rating": double.tryParse(ratingController.text) ?? 0.0,
+                  "longitude": double.tryParse(longitudeController.text) ?? 0.0,
+                  "latitude": double.tryParse(latitudeController.text) ?? 0.0,
+                  "location": location.text
                 };
                 updateData(
                     Attraction["id"], updatedData); // Use Firestore document ID
@@ -180,6 +220,9 @@ class _LahoreState extends State<Lahore> {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController subcategoryController = TextEditingController();
     final TextEditingController ratingController = TextEditingController();
+    final TextEditingController longitudeController = TextEditingController();
+    final TextEditingController latitudeController = TextEditingController();
+    final TextEditingController locationController = TextEditingController();
 
     showDialog(
       context: context,
@@ -230,6 +273,32 @@ class _LahoreState extends State<Lahore> {
                 ),
                 style: TextStyle(color: Colors.black),
               ),
+              TextField(
+                controller: longitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Longitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number, // Allow only numbers
+              ),
+              TextField(
+                controller: latitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Latitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number, // Allow only numbers
+              ),
+              TextField(
+                controller: locationController,
+                decoration: InputDecoration(
+                  labelText: 'Location',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+              ),
             ],
           ),
           actions: [
@@ -244,7 +313,13 @@ class _LahoreState extends State<Lahore> {
                   "image_url": imageurlController.text,
                   "name": nameController.text,
                   "subCategory": subcategoryController.text,
-                  "rating": ratingController.text,
+                  "rating": double.tryParse(ratingController.text) ??
+                      0.0, // Convert to double
+                  "longitude": double.tryParse(longitudeController.text) ??
+                      0.0, // Convert to double
+                  "latitude": double.tryParse(latitudeController.text) ??
+                      0.0, // Convert to double
+                  "location": locationController.text
                 };
                 FirebaseFirestore.instance.collection('Lahore').add(newProduct);
                 Navigator.of(context).pop();
@@ -274,8 +349,11 @@ class _LahoreState extends State<Lahore> {
   void sortProducts(String criterion) {
     setState(() {
       if (criterion == 'Rating') {
-        _filteredProducts.sort((a, b) =>
-            double.parse(a['rating']).compareTo(double.parse(b['rating'])));
+        _filteredProducts.sort((a, b) {
+          double ratingA = double.tryParse(a['rating'].toString()) ?? 0.0;
+          double ratingB = double.tryParse(b['rating'].toString()) ?? 0.0;
+          return ratingB.compareTo(ratingA); // Sort descending
+        });
       } else if (criterion == 'Name') {
         _filteredProducts.sort((a, b) => a['name'].compareTo(b['name']));
       }

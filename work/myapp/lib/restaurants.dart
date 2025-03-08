@@ -22,11 +22,19 @@ class _RestaurantsState extends State<Restaurants> {
 
   // Fetch data from Firestore
   void fetchData() async {
-    final userdata = await FirebaseFirestore.instance.collection('Restaurants').get();
-    final rawdata = userdata.docs.map((doc) => doc.data()..['id'] = doc.id).toList(); // Add 'id' for each document
+    final userdata =
+        await FirebaseFirestore.instance.collection('Restaurants').get();
+    final rawdata = userdata.docs
+        .map((doc) => doc.data()..['id'] = doc.id)
+        .toList(); // Add 'id' for each document
     setState(() {
       _products = rawdata;
-      _filteredProducts = rawdata; // Initially display all products
+      _filteredProducts = List.from(rawdata)
+        ..sort((a, b) {
+          double ratingA = double.tryParse(a["rating"].toString()) ?? 0.0;
+          double ratingB = double.tryParse(b["rating"].toString()) ?? 0.0;
+          return ratingB.compareTo(ratingA); // Sort descending
+        });
       isLoading = false;
     });
   }
@@ -35,7 +43,7 @@ class _RestaurantsState extends State<Restaurants> {
   void updateData(String docId, Map<String, dynamic> newData) async {
     try {
       final db = FirebaseFirestore.instance.collection('Restaurants');
-      await db.doc(docId).update(newData);  // Use document ID to update
+      await db.doc(docId).update(newData); // Use document ID to update
       print("Restaurants updated successfully!");
     } catch (e) {
       print("Error updating data: $e");
@@ -46,7 +54,7 @@ class _RestaurantsState extends State<Restaurants> {
   void deleteData(String docId) async {
     try {
       final db = FirebaseFirestore.instance.collection('Restaurants');
-      await db.doc(docId).delete();  // Use document ID to delete
+      await db.doc(docId).delete(); // Use document ID to delete
       print("Restaurants deleted successfully!");
     } catch (e) {
       print("Error deleting data: $e");
@@ -59,8 +67,10 @@ class _RestaurantsState extends State<Restaurants> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Delete Confirmation', style: TextStyle(color: Colors.black)),
-          content: Text('Are you sure you want to delete this product?', style: TextStyle(color: Colors.black)),
+          title: Text('Delete Confirmation',
+              style: TextStyle(color: Colors.black)),
+          content: Text('Are you sure you want to delete this product?',
+              style: TextStyle(color: Colors.black)),
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -81,11 +91,22 @@ class _RestaurantsState extends State<Restaurants> {
 
   // Show edit dialog
   void showEditDialog(Map<String, dynamic> Attraction) {
-    final TextEditingController description = TextEditingController(text: Attraction["description"]);
-    final TextEditingController imageurl = TextEditingController(text: Attraction["image_url"]);
-    final TextEditingController name = TextEditingController(text: Attraction["name"]);
-    final TextEditingController subcategoryController = TextEditingController(text: Attraction["subCategory"]);
-    final TextEditingController ratingController = TextEditingController(text: Attraction["rating"]);
+    final TextEditingController description =
+        TextEditingController(text: Attraction["description"]);
+    final TextEditingController imageurl =
+        TextEditingController(text: Attraction["image_url"]);
+    final TextEditingController name =
+        TextEditingController(text: Attraction["name"]);
+    final TextEditingController subcategoryController =
+        TextEditingController(text: Attraction["subCategory"]);
+    final TextEditingController ratingController =
+        TextEditingController(text: Attraction["rating"].toString());
+    final TextEditingController longitudeController =
+        TextEditingController(text: Attraction["longitude"].toString());
+    final TextEditingController latitudeController =
+        TextEditingController(text: Attraction["latitude"].toString());
+    final TextEditingController location =
+        TextEditingController(text: Attraction["location"]);
 
     showDialog(
       context: context,
@@ -135,6 +156,32 @@ class _RestaurantsState extends State<Restaurants> {
                 ),
                 style: TextStyle(color: Colors.black),
               ),
+              TextField(
+                controller: longitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Longitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: latitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Latitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: location,
+                decoration: InputDecoration(
+                  labelText: 'Location',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+              ),
             ],
           ),
           actions: [
@@ -149,9 +196,13 @@ class _RestaurantsState extends State<Restaurants> {
                   "image_url": imageurl.text,
                   "name": name.text,
                   "subCategory": subcategoryController.text,
-                  "rating": ratingController.text,
+                  "rating": double.tryParse(ratingController.text) ?? 0.0,
+                  "longitude": double.tryParse(longitudeController.text) ?? 0.0,
+                  "latitude": double.tryParse(latitudeController.text) ?? 0.0,
+                  "location": location.text
                 };
-                updateData(Attraction["id"], updatedData);  // Use Firestore document ID
+                updateData(
+                    Attraction["id"], updatedData); // Use Firestore document ID
                 Navigator.of(context).pop();
               },
               child: Text('Update', style: TextStyle(color: Colors.black)),
@@ -169,12 +220,16 @@ class _RestaurantsState extends State<Restaurants> {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController subcategoryController = TextEditingController();
     final TextEditingController ratingController = TextEditingController();
+    final TextEditingController longitudeController = TextEditingController();
+    final TextEditingController latitudeController = TextEditingController();
+    final TextEditingController locationController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Add New Attractions', style: TextStyle(color: Colors.black)),
+          title: Text('Add New Attractions',
+              style: TextStyle(color: Colors.black)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -217,6 +272,33 @@ class _RestaurantsState extends State<Restaurants> {
                   labelStyle: TextStyle(color: Colors.black),
                 ),
                 style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number, // Allow only numbers
+              ),
+              TextField(
+                controller: longitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Longitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number, // Allow only numbers
+              ),
+              TextField(
+                controller: latitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Latitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number, // Allow only numbers
+              ),
+              TextField(
+                controller: locationController,
+                decoration: InputDecoration(
+                  labelText: 'Location',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ),
@@ -232,11 +314,19 @@ class _RestaurantsState extends State<Restaurants> {
                   "image_url": imageurlController.text,
                   "name": nameController.text,
                   "subCategory": subcategoryController.text,
-                  "rating": ratingController.text,
+                  "rating": double.tryParse(ratingController.text) ??
+                      0.0, // Convert to double
+                  "longitude": double.tryParse(longitudeController.text) ??
+                      0.0, // Convert to double
+                  "latitude": double.tryParse(latitudeController.text) ??
+                      0.0, // Convert to double
+                  "location": locationController.text
                 };
-                FirebaseFirestore.instance.collection('Restaurants').add(newProduct);
+                FirebaseFirestore.instance
+                    .collection('Restaurants')
+                    .add(newProduct);
                 Navigator.of(context).pop();
-                fetchData();  // Refresh the list after adding the new product
+                fetchData(); // Refresh the list after adding the new product
               },
               child: Text('Add Product', style: TextStyle(color: Colors.black)),
             ),
@@ -262,7 +352,11 @@ class _RestaurantsState extends State<Restaurants> {
   void sortProducts(String criterion) {
     setState(() {
       if (criterion == 'Rating') {
-        _filteredProducts.sort((a, b) => double.parse(a['rating']).compareTo(double.parse(b['rating'])));
+        _filteredProducts.sort((a, b) {
+          double ratingA = double.tryParse(a['rating'].toString()) ?? 0.0;
+          double ratingB = double.tryParse(b['rating'].toString()) ?? 0.0;
+          return ratingB.compareTo(ratingA); // Sort descending
+        });
       } else if (criterion == 'Name') {
         _filteredProducts.sort((a, b) => a['name'].compareTo(b['name']));
       }
@@ -298,46 +392,50 @@ class _RestaurantsState extends State<Restaurants> {
                     onChanged: (value) {
                       setState(() {
                         if (value.isEmpty) {
-                          _filteredProducts = _products;  // Reset to all products when search query is empty
+                          _filteredProducts =
+                              _products; // Reset to all products when search query is empty
                         } else {
-                          searchProducts(value);  // Filter the list based on the search query
+                          searchProducts(
+                              value); // Filter the list based on the search query
                         }
                       });
                     },
                   ),
                 ),
-   Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    TextButton(
-      onPressed: () => sortProducts('Rating'),
-      style: TextButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: Colors.white, // Set text color to white
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      child: Text('Sort by Rating'),
-    ),
-    SizedBox(width: 10), // Space between buttons
-    TextButton(
-      onPressed: () => sortProducts('Name'),
-      style: TextButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: Colors.white, // Set text color to white
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      child: Text('Sort by Name'),
-    ),
-  ],
-),
-
-
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () => sortProducts('Rating'),
+                      style: TextButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        foregroundColor:
+                            Colors.white, // Set text color to white
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text('Sort by Rating'),
+                    ),
+                    SizedBox(width: 10), // Space between buttons
+                    TextButton(
+                      onPressed: () => sortProducts('Name'),
+                      style: TextButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        foregroundColor:
+                            Colors.white, // Set text color to white
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text('Sort by Name'),
+                    ),
+                  ],
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: _filteredProducts.length,
@@ -362,15 +460,20 @@ class _RestaurantsState extends State<Restaurants> {
                                   color: Colors.black,
                                 ),
                               ),
-                              Text("Description: ${product["description"]}", style: TextStyle(color: Colors.black)),
-                              Text("SubCategory: ${product["subCategory"]}", style: TextStyle(color: Colors.black)),
-                              Text("Rating: ${product["rating"]}", style: TextStyle(color: Colors.black)),
+                              Text("Description: ${product["description"]}",
+                                  style: TextStyle(color: Colors.black)),
+                              Text("SubCategory: ${product["subCategory"]}",
+                                  style: TextStyle(color: Colors.black)),
+                              Text("Rating: ${product["rating"]}",
+                                  style: TextStyle(color: Colors.black)),
                               product["image_url"] != null
                                   ? Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
                                       child: CircleAvatar(
                                         radius: 40,
-                                        backgroundImage: NetworkImage(product["image_url"] ?? ""),
+                                        backgroundImage: NetworkImage(
+                                            product["image_url"] ?? ""),
                                       ),
                                     )
                                   : SizedBox.shrink(),
@@ -383,7 +486,8 @@ class _RestaurantsState extends State<Restaurants> {
                                   ),
                                   IconButton(
                                     icon: Icon(Icons.delete),
-                                    onPressed: () => deleteDialog(product["id"]),
+                                    onPressed: () =>
+                                        deleteDialog(product["id"]),
                                   ),
                                 ],
                               ),

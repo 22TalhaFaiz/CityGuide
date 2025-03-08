@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Abbottabad extends StatefulWidget {
-  const Abbottabad({super.key});
+class abbottabad extends StatefulWidget {
+  const abbottabad({super.key});
 
   @override
-  State<Abbottabad> createState() => _AbbottabadState();
+  State<abbottabad> createState() => _abbottabadState();
 }
 
-class _AbbottabadState extends State<Abbottabad> {
+class _abbottabadState extends State<abbottabad> {
   List<Map<String, dynamic>> _products = [];
   List<Map<String, dynamic>> _filteredProducts = [];
   TextEditingController searchController = TextEditingController();
@@ -23,13 +23,18 @@ class _AbbottabadState extends State<Abbottabad> {
   // Fetch data from Firestore
   void fetchData() async {
     final userdata =
-        await FirebaseFirestore.instance.collection('Abbottabad').get();
+        await FirebaseFirestore.instance.collection('abbottabad').get();
     final rawdata = userdata.docs
         .map((doc) => doc.data()..['id'] = doc.id)
         .toList(); // Add 'id' for each document
     setState(() {
       _products = rawdata;
-      _filteredProducts = rawdata; // Initially display all products
+      _filteredProducts = List.from(rawdata)
+        ..sort((a, b) {
+          double ratingA = double.tryParse(a["rating"].toString()) ?? 0.0;
+          double ratingB = double.tryParse(b["rating"].toString()) ?? 0.0;
+          return ratingB.compareTo(ratingA); // Sort descending
+        });
       isLoading = false;
     });
   }
@@ -37,9 +42,9 @@ class _AbbottabadState extends State<Abbottabad> {
   // Update data in Firestore
   void updateData(String docId, Map<String, dynamic> newData) async {
     try {
-      final db = FirebaseFirestore.instance.collection('Abbottabad');
+      final db = FirebaseFirestore.instance.collection('abbottabad');
       await db.doc(docId).update(newData); // Use document ID to update
-      print("Abbottabad updated successfully!");
+      print("abbottabad updated successfully!");
     } catch (e) {
       print("Error updating data: $e");
     }
@@ -48,9 +53,9 @@ class _AbbottabadState extends State<Abbottabad> {
   // Delete data from Firestore
   void deleteData(String docId) async {
     try {
-      final db = FirebaseFirestore.instance.collection('Abbottabad');
+      final db = FirebaseFirestore.instance.collection('abbottabad');
       await db.doc(docId).delete(); // Use document ID to delete
-      print("Abbottabad deleted successfully!");
+      print("abbottabad deleted successfully!");
     } catch (e) {
       print("Error deleting data: $e");
     }
@@ -95,7 +100,13 @@ class _AbbottabadState extends State<Abbottabad> {
     final TextEditingController subcategoryController =
         TextEditingController(text: Attraction["subCategory"]);
     final TextEditingController ratingController =
-        TextEditingController(text: Attraction["rating"]);
+        TextEditingController(text: Attraction["rating"].toString());
+    final TextEditingController longitudeController =
+        TextEditingController(text: Attraction["longitude"].toString());
+    final TextEditingController latitudeController =
+        TextEditingController(text: Attraction["latitude"].toString());
+    final TextEditingController location =
+        TextEditingController(text: Attraction["location"]);
 
     showDialog(
       context: context,
@@ -145,6 +156,32 @@ class _AbbottabadState extends State<Abbottabad> {
                 ),
                 style: TextStyle(color: Colors.black),
               ),
+              TextField(
+                controller: longitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Longitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: latitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Latitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: location,
+                decoration: InputDecoration(
+                  labelText: 'Location',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+              ),
             ],
           ),
           actions: [
@@ -159,7 +196,10 @@ class _AbbottabadState extends State<Abbottabad> {
                   "image_url": imageurl.text,
                   "name": name.text,
                   "subCategory": subcategoryController.text,
-                  "rating": ratingController.text,
+                  "rating": double.tryParse(ratingController.text) ?? 0.0,
+                  "longitude": double.tryParse(longitudeController.text) ?? 0.0,
+                  "latitude": double.tryParse(latitudeController.text) ?? 0.0,
+                  "location": location.text
                 };
                 updateData(
                     Attraction["id"], updatedData); // Use Firestore document ID
@@ -180,6 +220,9 @@ class _AbbottabadState extends State<Abbottabad> {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController subcategoryController = TextEditingController();
     final TextEditingController ratingController = TextEditingController();
+    final TextEditingController longitudeController = TextEditingController();
+    final TextEditingController latitudeController = TextEditingController();
+    final TextEditingController locationController = TextEditingController();
 
     showDialog(
       context: context,
@@ -229,6 +272,33 @@ class _AbbottabadState extends State<Abbottabad> {
                   labelStyle: TextStyle(color: Colors.black),
                 ),
                 style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number, // Allow only numbers
+              ),
+              TextField(
+                controller: longitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Longitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number, // Allow only numbers
+              ),
+              TextField(
+                controller: latitudeController,
+                decoration: InputDecoration(
+                  labelText: 'Latitude',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.number, // Allow only numbers
+              ),
+              TextField(
+                controller: locationController,
+                decoration: InputDecoration(
+                  labelText: 'Location',
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ),
@@ -244,10 +314,16 @@ class _AbbottabadState extends State<Abbottabad> {
                   "image_url": imageurlController.text,
                   "name": nameController.text,
                   "subCategory": subcategoryController.text,
-                  "rating": ratingController.text,
+                  "rating": double.tryParse(ratingController.text) ??
+                      0.0, // Convert to double
+                  "longitude": double.tryParse(longitudeController.text) ??
+                      0.0, // Convert to double
+                  "latitude": double.tryParse(latitudeController.text) ??
+                      0.0, // Convert to double
+                  "location": locationController.text
                 };
                 FirebaseFirestore.instance
-                    .collection('Abbottabad')
+                    .collection('abbottabad')
                     .add(newProduct);
                 Navigator.of(context).pop();
                 fetchData(); // Refresh the list after adding the new product
@@ -276,8 +352,11 @@ class _AbbottabadState extends State<Abbottabad> {
   void sortProducts(String criterion) {
     setState(() {
       if (criterion == 'Rating') {
-        _filteredProducts.sort((a, b) =>
-            double.parse(a['rating']).compareTo(double.parse(b['rating'])));
+        _filteredProducts.sort((a, b) {
+          double ratingA = double.tryParse(a['rating'].toString()) ?? 0.0;
+          double ratingB = double.tryParse(b['rating'].toString()) ?? 0.0;
+          return ratingB.compareTo(ratingA); // Sort descending
+        });
       } else if (criterion == 'Name') {
         _filteredProducts.sort((a, b) => a['name'].compareTo(b['name']));
       }

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/Islamabad.dart';
 import 'package:myapp/abbottabad.dart';
 import 'package:myapp/category.dart';
+import 'package:myapp/cities.dart';
 import 'package:myapp/firebase_options.dart';
 import 'package:myapp/hotels.dart';
 import 'package:myapp/karachi.dart';
@@ -359,8 +360,10 @@ class DashboardDrawer extends StatelessWidget {
                     title: Text('Attractions',
                         style: TextStyle(color: Colors.white)),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Product()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Attractions()));
                     },
                   ),
                   ListTile(
@@ -370,7 +373,7 @@ class DashboardDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (buildr) => Categorydata()),
+                        MaterialPageRoute(builder: (buildr) => cities()),
                       );
                     },
                   ),
@@ -392,7 +395,7 @@ class DashboardDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (buildr) => hotels()),
+                        MaterialPageRoute(builder: (buildr) => Hotels()),
                       );
                     },
                   ),
@@ -447,7 +450,7 @@ class DashboardDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (buildr) => Abbottabad()),
+                        MaterialPageRoute(builder: (buildr) => abbottabad()),
                       );
                     },
                   ),
