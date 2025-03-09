@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:work/LocationMap.dart';
+import 'package:work/Reviewpopup.dart';
 
 class Detail extends StatefulWidget {
   final Map<String, dynamic> listing; // Accept listing data
@@ -26,6 +27,29 @@ class _DetailState extends State<Detail> {
       builder: (context) => LocationMapPopup(
         latitude: widget.listing['latitude'],
         longitude: widget.listing['longitude'],
+      ),
+    );
+  }
+
+  void showReviewsPopup(BuildContext context) {
+    String documentId =
+        widget.listing['id'] ?? ""; // Ensure document ID is passed
+
+    if (documentId.isEmpty) {
+      print("❌ Error: Missing Document ID");
+      return; // Prevent opening the popup if ID is missing
+    }
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => ReviewsPopup(
+        collection: widget.listing['collection'] ?? "UnknownCollection",
+        documentId: documentId, // ✅ Now included
+        listingName: widget.listing['name'] ?? "Unknown Place",
       ),
     );
   }
@@ -57,7 +81,17 @@ class _DetailState extends State<Detail> {
                   ),
                 ),
               ),
-
+              Positioned(
+                top: 40, // Adjust for safe area
+                left: 10, // Distance from left side
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back,
+                      color: Colors.white, size: 30),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
               // Details Section
               Positioned(
                 top: 270,
@@ -108,21 +142,22 @@ class _DetailState extends State<Detail> {
                       // Rating
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.star, color: Colors.yellow),
-                            Icon(Icons.star, color: Colors.yellow),
-                            Icon(Icons.star, color: Colors.yellow),
-                            Icon(Icons.star, color: Colors.yellow),
-                            Icon(Icons.star_outline_outlined,
-                                color: Colors.grey),
-                            SizedBox(width: 10),
-                            Text(
-                              "[${double.tryParse(widget.listing['rating'].toString()) ?? 0.0}]",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 12),
-                            ),
-                          ],
+                        child: GestureDetector(
+                          onTap: () =>
+                              showReviewsPopup(context), // Open reviews popup
+                          child: Row(
+                            children: [
+                              Icon(Icons.star, color: Colors.yellow),
+                              Text(
+                                "[${widget.listing['rating'].toString()}]",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
+                              ),
+                              const SizedBox(width: 5),
+                              Text("View Reviews",
+                                  style: TextStyle(color: Colors.blue)),
+                            ],
+                          ),
                         ),
                       ),
 

@@ -158,8 +158,6 @@ class _citiesState extends State<cities> {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController subcategoryController = TextEditingController();
     final TextEditingController ratingController = TextEditingController();
-    final TextEditingController longitudeController = TextEditingController();
-    final TextEditingController latitudeController = TextEditingController();
 
     showDialog(
       context: context,

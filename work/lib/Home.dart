@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/Abbotabad.dart';
@@ -36,12 +38,44 @@ class _HomeState extends State<Home> {
     _fetchCities();
   }
 
+  Future<String> getProfileImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('profileImage') ??
+        'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+  }
+
   _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Load cached data
     setState(() {
       userName = prefs.getString('userName') ?? 'Guest';
       userEmail = prefs.getString('userEmail') ?? 'guest@example.com';
     });
+
+    // Fetch fresh data from Firestore
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (userDoc.exists) {
+        String updatedName = userDoc['name'] ?? 'Guest';
+        String updatedEmail = userDoc['email'] ?? 'guest@example.com';
+
+        // Update UI
+        setState(() {
+          userName = updatedName;
+          userEmail = updatedEmail;
+        });
+
+        // Save to SharedPreferences
+        await prefs.setString('userName', updatedName);
+        await prefs.setString('userEmail', updatedEmail);
+      }
+    }
   }
 
   // Fetch categories from Firestore
@@ -70,7 +104,7 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (builder) => Search()));
+                  context, MaterialPageRoute(builder: (builder) => explore()));
             },
             icon: const Icon(Icons.search),
             color: Colors.deepPurple,
@@ -82,13 +116,22 @@ class _HomeState extends State<Home> {
           children: [
             UserAccountsDrawerHeader(
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.purpleAccent, Colors.deepPurple])),
+                gradient: LinearGradient(
+                  colors: [Colors.purpleAccent, Colors.deepPurple],
+                ),
+              ),
               accountName: Text(userName),
               accountEmail: Text(userEmail),
-              currentAccountPicture: const CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'),
+              currentAccountPicture: FutureBuilder<String>(
+                future: getProfileImage(),
+                builder: (context, snapshot) {
+                  String profileImageUrl = snapshot.data ??
+                      'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+
+                  return CircleAvatar(
+                    backgroundImage: NetworkImage(profileImageUrl),
+                  );
+                },
               ),
             ),
             Expanded(
@@ -111,7 +154,7 @@ class _HomeState extends State<Home> {
                       Icons.location_city,
                       color: Colors.brown,
                     ),
-                    title: const Text('Place to visit'),
+                    title: const Text('Attractions'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
@@ -123,7 +166,7 @@ class _HomeState extends State<Home> {
                       Icons.restaurant_outlined,
                       color: Colors.yellow,
                     ),
-                    title: const Text(' Resturent'),
+                    title: const Text('Restaurants'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
@@ -135,31 +178,7 @@ class _HomeState extends State<Home> {
                       Icons.hotel,
                       color: Colors.grey,
                     ),
-                    title: const Text(' stay & Hotels'),
-                    onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.event_available,
-                      color: Colors.orange,
-                    ),
-                    title: const Text(' Events & Festivals'),
-                    onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.shopping_bag,
-                      color: Colors.purple,
-                    ),
-                    title: const Text(' Shopping & Markets'),
+                    title: const Text('Hotels'),
                     onTap: () {
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
@@ -426,11 +445,11 @@ class _HomeState extends State<Home> {
                     true, // Optional: Makes the center image slightly bigger
               ),
               items: [
-                'assets/images/Hospital1.jpg',
-                'assets/images/Hotel.jpeg',
+                'assets/images/Lahore Museum.jpg',
+                'assets/images/hill.jpg',
                 'assets/images/Mall1.jpg',
                 'assets/images/Sea1.webp',
-                'assets/images/Park.jpeg',
+                'assets/images/hwsbay.jpg',
               ].map((imagePath) {
                 return Builder(
                   builder: (BuildContext context) {
@@ -474,7 +493,7 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Recommendation',
+                      'Cities',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -595,42 +614,33 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.reactCircle,
-        height: 50,
-        items: [
-          TabItem(icon: Icons.home, title: 'Home'),
-          TabItem(icon: Icons.explore, title: 'Explore'),
-          TabItem(icon: Icons.search, title: 'Search'),
-          TabItem(
-              icon: Icons.person, title: 'Profile'), // ✅ Direct Icon use karein
-        ],
-        initialActiveIndex: 0,
-        backgroundColor: Colors.white,
-        color: Colors.deepPurple,
-        activeColor: Colors.deepPurple,
-        onTap: (int index) {
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home()),
-            );
-          } else if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => explore()),
-            );
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Search()),
-            );
-          } else if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Profile()),
-            );
-          }
+      bottomNavigationBar: Builder(
+        builder: (context) {
+          return ConvexAppBar(
+            style: TabStyle.reactCircle,
+            height: 50,
+            items: [
+              TabItem(icon: Icons.home, title: 'Home'),
+              TabItem(icon: Icons.explore, title: 'Explore'),
+              TabItem(icon: Icons.person, title: 'Profile'),
+            ],
+            initialActiveIndex: 0,
+            backgroundColor: Colors.grey[50],
+            color: Colors.deepPurple,
+            activeColor: Colors.deepPurpleAccent,
+            onTap: (int index) {
+              if (index == 0) {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
+              } else if (index == 1) {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const explore()));
+              } else if (index == 2) {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Profile()));
+              }
+            },
+          );
         },
       ),
     );

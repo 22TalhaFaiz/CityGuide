@@ -112,6 +112,7 @@ class DatabaseService {
         category, // "Attractions", "Hotels", "Events", "Restaurants" OR "All"
     String subCategory = "All",
     bool highestRated = true,
+    String searchQuery = "", // Added search query
   }) async {
     List<String> categories = [
       "Attractions",
@@ -131,8 +132,13 @@ class DatabaseService {
           query = query.where("subCategory", isEqualTo: subCategory);
         }
 
-        // Apply sorting by rating
-        if (highestRated) {
+        // Apply search filter (if searchQuery is not empty)
+        if (searchQuery.isNotEmpty) {
+          query = query
+              .orderBy("name") // ✅ Required for range filtering
+              .where("name", isGreaterThanOrEqualTo: searchQuery)
+              .where("name", isLessThanOrEqualTo: searchQuery + '\uf8ff');
+        } else if (highestRated) {
           query = query.orderBy("rating", descending: true);
         }
 
@@ -148,7 +154,13 @@ class DatabaseService {
         query = query.where("subCategory", isEqualTo: subCategory);
       }
 
-      if (highestRated) {
+      // Apply search filter
+      if (searchQuery.isNotEmpty) {
+        query = query
+            .orderBy("name") // ✅ Required for range filtering
+            .where("name", isGreaterThanOrEqualTo: searchQuery)
+            .where("name", isLessThanOrEqualTo: searchQuery + '\uf8ff');
+      } else if (highestRated) {
         query = query.orderBy("rating", descending: true);
       }
 
@@ -171,4 +183,6 @@ class DatabaseService {
     TaskSnapshot snapshot = await uploadTask;
     return await snapshot.ref.getDownloadURL();
   }
+
+// ==================//
 }

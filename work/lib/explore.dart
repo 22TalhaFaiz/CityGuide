@@ -3,7 +3,6 @@ import 'package:work/Home.dart';
 import 'package:work/database_service.dart';
 import 'package:work/detail.dart';
 import 'package:work/profile.dart';
-import 'package:work/search.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class explore extends StatefulWidget {
@@ -17,6 +16,8 @@ class _exploreState extends State<explore> {
   final DatabaseService _dbService = DatabaseService();
   String selectedCategory = "All";
   bool highestRated = true;
+  TextEditingController _searchController = TextEditingController();
+  String searchQuery = "";
 
   List<String> categories = ["All", "Attractions", "Hotels", "Restaurants"];
 
@@ -27,6 +28,31 @@ class _exploreState extends State<explore> {
       body: Column(
         children: [
           const SizedBox(height: 60),
+
+          // Search Bar
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextField(
+              controller: _searchController,
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: "Search...",
+                prefixIcon: Icon(Icons.search, color: Colors.deepPurple),
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 10),
 
           // Filters
           Padding(
@@ -75,6 +101,7 @@ class _exploreState extends State<explore> {
               future: _dbService.getListings(
                 category: selectedCategory,
                 highestRated: highestRated,
+                searchQuery: searchQuery, // Pass search query to DB
               ),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -105,7 +132,6 @@ class _exploreState extends State<explore> {
         items: [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.explore, title: 'Explore'),
-          TabItem(icon: Icons.search, title: 'Search'),
           TabItem(icon: Icons.person, title: 'Profile'),
         ],
         initialActiveIndex: 1,
@@ -113,16 +139,19 @@ class _exploreState extends State<explore> {
         color: Colors.deepPurple,
         activeColor: Colors.deepPurpleAccent,
         onTap: (int index) {
-          if (index == 0) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => const Home()));
-          } else if (index == 2) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const Search()));
-          } else if (index == 3) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const Profile()));
-          }
+          setState(() {
+            // ✅ Forces the UI to refresh properly
+            if (index == 0) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const Home()));
+            } else if (index == 1) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const explore()));
+            } else if (index == 2) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const Profile()));
+            }
+          });
         },
       ),
     );
