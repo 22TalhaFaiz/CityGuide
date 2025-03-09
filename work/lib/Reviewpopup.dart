@@ -31,15 +31,6 @@ class _ReviewsPopupState extends State<ReviewsPopup> {
   }
 
   void getReviews() async {
-    print("🛠️ Debugging Firestore:");
-    print("✅ Collection: ${widget.collection}");
-    print("✅ Document ID: ${widget.documentId}");
-
-    if (widget.collection.isEmpty || widget.documentId.isEmpty) {
-      print("❌ Error: Collection or Document ID is missing");
-      return; // Stop execution to prevent Firestore assertion error
-    }
-
     FirebaseFirestore.instance
         .collection(widget.collection)
         .doc(widget.documentId)
@@ -54,6 +45,7 @@ class _ReviewsPopupState extends State<ReviewsPopup> {
             'username': data['username'] ?? "Anonymous",
             'text': data['text'] ?? "No review available",
             'rating': data['rating'] ?? 0,
+            'profileImage': data['profileImage'] ?? "", // ✅ Fetching image URL
           };
         }).toList();
       });
@@ -66,7 +58,8 @@ class _ReviewsPopupState extends State<ReviewsPopup> {
 
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please log in to leave a review!")));
+        const SnackBar(content: Text("Please log in to leave a review!")),
+      );
       return;
     }
 
@@ -74,12 +67,15 @@ class _ReviewsPopupState extends State<ReviewsPopup> {
         await FirebaseFirestore.instance.collection("users").doc(userId).get();
 
     String username = userSnapshot.exists ? userSnapshot['name'] : "Guest";
+    String userImage =
+        userSnapshot.exists ? userSnapshot['profileImage'] ?? "" : "";
 
     String reviewText = reviewController.text.trim();
 
     if (reviewText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Review cannot be empty!")));
+        const SnackBar(content: Text("Review cannot be empty!")),
+      );
       return;
     }
 
@@ -92,15 +88,17 @@ class _ReviewsPopupState extends State<ReviewsPopup> {
       'text': reviewText,
       'timestamp': FieldValue.serverTimestamp(),
       'username': username,
+      'profileImage': userImage, // ✅ Storing the image URL
     });
 
     reviewController.clear();
     setState(() {
-      userRating = 5.0; // Reset rating after submission
+      userRating = 5.0;
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Review added successfully!")));
+      const SnackBar(content: Text("Review added successfully!")),
+    );
   }
 
   @override
@@ -137,13 +135,17 @@ class _ReviewsPopupState extends State<ReviewsPopup> {
                           return Card(
                             margin: const EdgeInsets.symmetric(vertical: 5),
                             child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.blueAccent,
-                                child: Text(
-                                  data['username'][0].toUpperCase(),
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
+                              leading: data['profileImage'] != null &&
+                                      data['profileImage'].isNotEmpty
+                                  ? CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(data['profileImage']),
+                                    )
+                                  : const CircleAvatar(
+                                      backgroundColor: Colors.blueAccent,
+                                      child: Icon(Icons.person,
+                                          color: Colors.white),
+                                    ),
                               title: Text(data['username'] ?? "Anonymous"),
                               subtitle:
                                   Text(data['text'] ?? "No review available"),
