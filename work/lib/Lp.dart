@@ -327,7 +327,7 @@ class _LpState extends State<Lp> {
                                     context,
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation, secondaryAnimation) =>
-                                          Home(), // Corrected Class Name
+                                          login(), // Corrected Class Name
                                       transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                         return FadeTransition(
                                           opacity: animation,

@@ -660,6 +660,7 @@ class _HomeState extends State<Home> {
             items: [
               TabItem(icon: Icons.home, title: 'Home'),
               TabItem(icon: Icons.explore, title: 'Explore'),
+              
               TabItem(icon: Icons.person, title: 'Profile'),
             ],
             initialActiveIndex: 0,
