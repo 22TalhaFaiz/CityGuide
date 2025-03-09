@@ -84,7 +84,7 @@ class _AdminScreenState extends State<AdminScreen> {
 
     // Fetch the number of categories
     final categorySnapshot =
-        await FirebaseFirestore.instance.collection('categories').get();
+        await FirebaseFirestore.instance.collection('cities').get();
     setState(() {
       categoryCount = categorySnapshot.docs.length;
     });
@@ -120,7 +120,7 @@ class _AdminScreenState extends State<AdminScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin Dashboard'),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.deepPurple,
       ),
       drawer: DashboardDrawer(),
       body: Padding(
@@ -133,7 +133,7 @@ class _AdminScreenState extends State<AdminScreen> {
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.red, Colors.black],
+                  colors: [Colors.purple, Colors.deepPurple],
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -153,12 +153,6 @@ class _AdminScreenState extends State<AdminScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
-                  // Add an Image below the welcome text (Replace URL with your image)
-                  Image.network(
-                      'https://www.istockphoto.com/vector/bookshelves-gm854608904-140850519',
-                      height: 100,
-                      width: 100),
                 ],
               ),
             ),
@@ -182,8 +176,8 @@ class _AdminScreenState extends State<AdminScreen> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.black,
-                            Colors.grey
+                            Colors.deepPurple,
+                            Colors.white
                           ], // Gradient colors for the Users card
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -214,8 +208,8 @@ class _AdminScreenState extends State<AdminScreen> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            const Color.fromARGB(255, 255, 255, 255),
-                            Colors.grey
+                            Colors.deepPurple,
+                            Colors.white
                           ], // Gradient colors for the Books card
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -225,8 +219,8 @@ class _AdminScreenState extends State<AdminScreen> {
                       child: Center(
                         child: ListTile(
                           leading:
-                              Icon(Icons.book, color: Colors.white, size: 40),
-                          title: Text('Books',
+                              Icon(Icons.place, color: Colors.white, size: 40),
+                          title: Text('Attractions',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20)),
                           subtitle: Text(bookCount.toString(),
@@ -246,8 +240,8 @@ class _AdminScreenState extends State<AdminScreen> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.black,
-                            Colors.grey
+                            Colors.deepPurple,
+                            Colors.white
                           ], // Gradient colors for the Categories card
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -256,9 +250,9 @@ class _AdminScreenState extends State<AdminScreen> {
                       ),
                       child: Center(
                         child: ListTile(
-                          leading: Icon(Icons.category,
+                          leading: Icon(Icons.location_city,
                               color: Colors.white, size: 40),
-                          title: Text('Categories',
+                          title: Text('Cities',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20)),
                           subtitle: Text(categoryCount.toString(),
@@ -279,8 +273,8 @@ class _AdminScreenState extends State<AdminScreen> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.black,
-                              Colors.grey
+                              Colors.deepPurple,
+                              Colors.white
                             ], // Gradient colors for the Categories card
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -289,12 +283,12 @@ class _AdminScreenState extends State<AdminScreen> {
                         ),
                         child: Center(
                           child: ListTile(
-                            leading: Icon(Icons.category,
+                            leading: Icon(Icons.location_city,
                                 color: Colors.white, size: 40),
-                            title: Text('Category: ${entry.key}',
+                            title: Text('Cities: ${entry.key}',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20)),
-                            subtitle: Text('Books: ${entry.value}',
+                            subtitle: Text('Attractions: ${entry.value}',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 36)),
                           ),
@@ -321,7 +315,7 @@ class DashboardDrawer extends StatelessWidget {
           color: Colors.black,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.7),
+              color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
               spreadRadius: 5,
               blurRadius: 15,
               offset: Offset(4, 4),
@@ -332,11 +326,10 @@ class DashboardDrawer extends StatelessWidget {
           children: [
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.red,
+                color: Colors.deepPurple,
               ),
-              accountName:
-                  Text('Niha Siddiqui', style: TextStyle(color: Colors.white)),
-              accountEmail: Text('nihasiddiqui@gmail.com',
+              accountName: Text('Admin', style: TextStyle(color: Colors.white)),
+              accountEmail: Text('admin@gmail.com',
                   style: TextStyle(color: Colors.white)),
               currentAccountPicture: CircleAvatar(
                 backgroundImage:
@@ -367,7 +360,7 @@ class DashboardDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.category, color: Colors.white),
+                    leading: Icon(Icons.location_city, color: Colors.white),
                     title:
                         Text('Cities', style: TextStyle(color: Colors.white)),
                     onTap: () {
@@ -378,7 +371,7 @@ class DashboardDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.category, color: Colors.white),
+                    leading: Icon(Icons.restaurant, color: Colors.white),
                     title: Text('Restaurants',
                         style: TextStyle(color: Colors.white)),
                     onTap: () {
@@ -389,7 +382,7 @@ class DashboardDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.category, color: Colors.white),
+                    leading: Icon(Icons.hotel, color: Colors.white),
                     title:
                         Text('Hotels', style: TextStyle(color: Colors.white)),
                     onTap: () {
@@ -400,7 +393,7 @@ class DashboardDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.category, color: Colors.white),
+                    leading: Icon(Icons.place, color: Colors.white),
                     title: Text('Lahore Attractions',
                         style: TextStyle(color: Colors.white)),
                     onTap: () {
@@ -411,7 +404,7 @@ class DashboardDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.category, color: Colors.white),
+                    leading: Icon(Icons.place, color: Colors.white),
                     title: Text('Karachi Attractions',
                         style: TextStyle(color: Colors.white)),
                     onTap: () {
@@ -422,7 +415,7 @@ class DashboardDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.category, color: Colors.white),
+                    leading: Icon(Icons.place, color: Colors.white),
                     title: Text('Islamabad Attractions',
                         style: TextStyle(color: Colors.white)),
                     onTap: () {
@@ -433,7 +426,7 @@ class DashboardDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.category, color: Colors.white),
+                    leading: Icon(Icons.place, color: Colors.white),
                     title: Text('Multan Attractions',
                         style: TextStyle(color: Colors.white)),
                     onTap: () {
@@ -444,7 +437,7 @@ class DashboardDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.category, color: Colors.white),
+                    leading: Icon(Icons.place, color: Colors.white),
                     title: Text('Abbottabad Attractions',
                         style: TextStyle(color: Colors.white)),
                     onTap: () {

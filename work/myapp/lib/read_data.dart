@@ -28,7 +28,7 @@ class _FetchDataState extends State<FetchData> {
     final userdata = await FirebaseFirestore.instance.collection('users').get();
     final rawdata = userdata.docs.map((doc) {
       var data = doc.data();
-      data['id'] = doc.id;  // Save the Firestore document ID as 'id'
+      data['id'] = doc.id; // Save the Firestore document ID as 'id'
       return data;
     }).toList();
 
@@ -43,8 +43,8 @@ class _FetchDataState extends State<FetchData> {
     try {
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(docId)  // Use the document ID to get the correct document
-          .update(newData);  // Update specific fields
+          .doc(docId) // Use the document ID to get the correct document
+          .update(newData); // Update specific fields
       print("Data updated successfully!");
     } catch (e) {
       print("Error updating data: $e");
@@ -62,8 +62,10 @@ class _FetchDataState extends State<FetchData> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Delete Confirmation', style: TextStyle(color: Colors.black)),
-          content: Text('Are you sure you want to delete this user?', style: TextStyle(color: Colors.black)),
+          title: Text('Delete Confirmation',
+              style: TextStyle(color: Colors.black)),
+          content: Text('Are you sure you want to delete this user?',
+              style: TextStyle(color: Colors.black)),
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -84,9 +86,12 @@ class _FetchDataState extends State<FetchData> {
 
   // Show dialog for editing user details
   void showEditDialog(Map<String, dynamic> user) {
-    final TextEditingController nameController = TextEditingController(text: user["name"]);
-    final TextEditingController emailController = TextEditingController(text: user["email"]);
-    final TextEditingController passwordController = TextEditingController(text: user["password"]);
+    final TextEditingController nameController =
+        TextEditingController(text: user["name"]);
+    final TextEditingController emailController =
+        TextEditingController(text: user["email"]);
+    final TextEditingController passwordController =
+        TextEditingController(text: user["password"]);
 
     showDialog(
       context: context,
@@ -100,9 +105,10 @@ class _FetchDataState extends State<FetchData> {
                 controller: nameController,
                 decoration: InputDecoration(
                   labelText: 'Name',
-                  labelStyle: TextStyle(color: Colors.black),  // Text field label color
+                  labelStyle:
+                      TextStyle(color: Colors.black), // Text field label color
                 ),
-                style: TextStyle(color: Colors.black),  // Text input color
+                style: TextStyle(color: Colors.black), // Text input color
               ),
               TextField(
                 controller: emailController,
@@ -110,7 +116,7 @@ class _FetchDataState extends State<FetchData> {
                   labelText: 'Email',
                   labelStyle: TextStyle(color: Colors.black),
                 ),
-                style: TextStyle(color: Colors.black),  // Text input color
+                style: TextStyle(color: Colors.black), // Text input color
               ),
               TextField(
                 controller: passwordController,
@@ -118,7 +124,7 @@ class _FetchDataState extends State<FetchData> {
                   labelText: 'Password',
                   labelStyle: TextStyle(color: Colors.black),
                 ),
-                style: TextStyle(color: Colors.black),  // Text input color
+                style: TextStyle(color: Colors.black), // Text input color
               ),
             ],
           ),
@@ -135,7 +141,8 @@ class _FetchDataState extends State<FetchData> {
                   "password": passwordController.text,
                 };
 
-                updateData(user["id"], updatedData);  // Use Firestore document ID to update
+                updateData(user["id"],
+                    updatedData); // Use Firestore document ID to update
                 Navigator.of(context).pop();
               },
               child: Text('Update', style: TextStyle(color: Colors.black)),
@@ -197,15 +204,18 @@ class _FetchDataState extends State<FetchData> {
                   "name": nameController.text,
                   "email": emailController.text,
                   "password": passwordController.text,
-                  "images": "",  // You can add default image logic here if needed
+                  "images":
+                      "", // You can add default image logic here if needed
                 };
 
                 try {
                   // Add new user to Firestore
-                  await FirebaseFirestore.instance.collection('users').add(newUser);
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .add(newUser);
                   print("User added successfully!");
                   Navigator.of(context).pop();
-                  fetchData();  // Refresh the user data after adding a new user
+                  fetchData(); // Refresh the user data after adding a new user
                 } catch (e) {
                   print("Error adding user: $e");
                 }
@@ -222,12 +232,13 @@ class _FetchDataState extends State<FetchData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Users Data', style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255))),
-        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+        title: Text('Users Data',
+            style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255))),
+        backgroundColor: Colors.deepPurple,
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: showAddUserDialog,  // Show Add User Dialog
+            onPressed: showAddUserDialog, // Show Add User Dialog
           ),
         ],
       ),
@@ -249,11 +260,13 @@ class _FetchDataState extends State<FetchData> {
                     fetchData(); // Reset the list to all users when search query is empty
                   } else {
                     _users = _users
-                        .where((user) => user["name"]
-                            .toLowerCase()
-                            .contains(value.toLowerCase()) || user["email"]
-                            .toLowerCase()
-                            .contains(value.toLowerCase()))
+                        .where((user) =>
+                            user["name"]
+                                .toLowerCase()
+                                .contains(value.toLowerCase()) ||
+                            user["email"]
+                                .toLowerCase()
+                                .contains(value.toLowerCase()))
                         .toList();
                   }
                 });
@@ -298,7 +311,8 @@ class _FetchDataState extends State<FetchData> {
                                       ),
                                       IconButton(
                                         icon: Icon(Icons.delete),
-                                        onPressed: () => deleteDialog(user["id"]),
+                                        onPressed: () =>
+                                            deleteDialog(user["id"]),
                                       ),
                                     ],
                                   ),
