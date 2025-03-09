@@ -93,6 +93,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Center(
             child: const Text(
@@ -156,9 +157,8 @@ class _HomeState extends State<Home> {
                     ),
                     title: const Text('Attractions'),
                     onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) => explore()));
                     },
                   ),
                   ListTile(
@@ -168,9 +168,8 @@ class _HomeState extends State<Home> {
                     ),
                     title: const Text('Restaurants'),
                     onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) => explore()));
                     },
                   ),
                   ListTile(
@@ -178,11 +177,32 @@ class _HomeState extends State<Home> {
                       Icons.hotel,
                       color: Colors.grey,
                     ),
-                    title: const Text('Hotels'),
+                    title: const Text('  Hotels'),
                     onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) => explore()));
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.event_available,
+                      color: Colors.orange,
+                    ),
+                    title: const Text(' Events'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) => explore()));
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.shopping_bag,
+                      color: Colors.purple,
+                    ),
+                    title: const Text(' Shopping & Markets'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) => explore()));
                     },
                   ),
                   ListTile(
@@ -445,11 +465,11 @@ class _HomeState extends State<Home> {
                     true, // Optional: Makes the center image slightly bigger
               ),
               items: [
-                'assets/images/Lahore Museum.jpg',
-                'assets/images/hill.jpg',
-                'assets/images/Mall1.jpg',
-                'assets/images/Sea1.webp',
-                'assets/images/hwsbay.jpg',
+                'assets/images/1920px-Faisal_Masjid_From_Damn_e_koh.jpg',
+                'assets/images/Abbottabad-2.jpg',
+                'assets/images/Best-Western-Hotel-Rawalpindi-Central-800x445.jpg',
+                'assets/images/download (1).jpeg',
+                'assets/images/Hawkes-Bay-Karachi.jpg',
               ].map((imagePath) {
                 return Builder(
                   builder: (BuildContext context) {
@@ -503,12 +523,30 @@ class _HomeState extends State<Home> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'See All',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    explore(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "See All",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.deepPurple,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),

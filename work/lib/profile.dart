@@ -67,7 +67,9 @@ class _ProfileState extends State<Profile> {
         await prefs.setString('profileImage', _profileImageUrl);
       }
     }
+    
   }
+  
 
   // Upload Profile Image
   Future<void> _uploadProfileImage() async {
