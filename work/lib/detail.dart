@@ -6,8 +6,15 @@ import 'package:work/Reviewpopup.dart';
 
 class Detail extends StatefulWidget {
   final Map<String, dynamic> listing; // Accept listing data
+  final String collection;
+  final String documentId;
 
-  const Detail({Key? key, required this.listing}) : super(key: key);
+  const Detail({
+    Key? key,
+    required this.listing,
+    required this.collection,
+    required this.documentId,
+  }) : super(key: key);
 
   @override
   State<Detail> createState() => _DetailState();
@@ -32,12 +39,13 @@ class _DetailState extends State<Detail> {
   }
 
   void showReviewsPopup(BuildContext context) {
-    String documentId =
-        widget.listing['id'] ?? ""; // Ensure document ID is passed
+    print("📌 Debugging showReviewsPopup:");
+    print("✅ Collection: ${widget.collection}");
+    print("✅ Document ID: ${widget.documentId}");
 
-    if (documentId.isEmpty) {
-      print("❌ Error: Missing Document ID");
-      return; // Prevent opening the popup if ID is missing
+    if (widget.collection.isEmpty || widget.documentId.isEmpty) {
+      print("❌ Error: Collection or Document ID is missing");
+      return;
     }
 
     showModalBottomSheet(
@@ -47,8 +55,8 @@ class _DetailState extends State<Detail> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) => ReviewsPopup(
-        collection: widget.listing['collection'] ?? "UnknownCollection",
-        documentId: documentId, // ✅ Now included
+        collection: widget.collection,
+        documentId: widget.documentId,
         listingName: widget.listing['name'] ?? "Unknown Place",
       ),
     );

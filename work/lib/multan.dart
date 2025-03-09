@@ -90,7 +90,12 @@ class Multan extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Detail(listing: data),
+                              builder: (context) => Detail(
+                                listing: data,
+                                collection: 'multan', // ✅ Pass collection name
+                                documentId:
+                                    attractions[index].id, // ✅ Pass document ID
+                              ),
                             ),
                           );
                         },

@@ -108,11 +108,10 @@ class DatabaseService {
   // =================== ATTRACTION MANAGEMENT ===================
 
   Future<List<Map<String, dynamic>>> getListings({
-    required String
-        category, // "Attractions", "Hotels", "Events", "Restaurants" OR "All"
+    required String category,
     String subCategory = "All",
     bool highestRated = true,
-    String searchQuery = "", // Added search query
+    String searchQuery = "",
   }) async {
     List<String> categories = [
       "Attractions",
@@ -127,15 +126,13 @@ class DatabaseService {
       for (String cat in categories) {
         Query query = _firestore.collection(cat);
 
-        // Apply sub-category filter if it's not "All"
         if (subCategory != "All") {
           query = query.where("subCategory", isEqualTo: subCategory);
         }
 
-        // Apply search filter (if searchQuery is not empty)
         if (searchQuery.isNotEmpty) {
           query = query
-              .orderBy("name") // ✅ Required for range filtering
+              .orderBy("name") // ✅ Required for search filtering
               .where("name", isGreaterThanOrEqualTo: searchQuery)
               .where("name", isLessThanOrEqualTo: searchQuery + '\uf8ff');
         } else if (highestRated) {
@@ -143,8 +140,11 @@ class DatabaseService {
         }
 
         QuerySnapshot snapshot = await query.get();
-        allListings.addAll(snapshot.docs.map(
-            (doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>}));
+        allListings.addAll(snapshot.docs.map((doc) => {
+              'documentId': doc.id, // ✅ Ensure document ID is correctly named
+              'collection': cat, // ✅ Store the collection name
+              ...doc.data() as Map<String, dynamic>
+            }));
       }
     } else {
       // Fetch from a single category collection
@@ -154,10 +154,9 @@ class DatabaseService {
         query = query.where("subCategory", isEqualTo: subCategory);
       }
 
-      // Apply search filter
       if (searchQuery.isNotEmpty) {
         query = query
-            .orderBy("name") // ✅ Required for range filtering
+            .orderBy("name")
             .where("name", isGreaterThanOrEqualTo: searchQuery)
             .where("name", isLessThanOrEqualTo: searchQuery + '\uf8ff');
       } else if (highestRated) {
@@ -166,7 +165,11 @@ class DatabaseService {
 
       QuerySnapshot snapshot = await query.get();
       allListings = snapshot.docs
-          .map((doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>})
+          .map((doc) => {
+                'documentId': doc.id, // ✅ Ensure document ID is correctly named
+                'collection': category, // ✅ Store the collection name
+                ...doc.data() as Map<String, dynamic>
+              })
           .toList();
     }
 

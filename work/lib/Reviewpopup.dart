@@ -30,8 +30,16 @@ class _ReviewsPopupState extends State<ReviewsPopup> {
     getReviews();
   }
 
-  // Fetch reviews from Firestore
   void getReviews() async {
+    print("🛠️ Debugging Firestore:");
+    print("✅ Collection: ${widget.collection}");
+    print("✅ Document ID: ${widget.documentId}");
+
+    if (widget.collection.isEmpty || widget.documentId.isEmpty) {
+      print("❌ Error: Collection or Document ID is missing");
+      return; // Stop execution to prevent Firestore assertion error
+    }
+
     FirebaseFirestore.instance
         .collection(widget.collection)
         .doc(widget.documentId)

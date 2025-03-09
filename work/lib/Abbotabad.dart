@@ -90,7 +90,13 @@ class Abbotabad extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Detail(listing: data),
+                              builder: (context) => Detail(
+                                listing: data,
+                                collection:
+                                    'abbottabad', // ✅ Pass collection name
+                                documentId:
+                                    attractions[index].id, // ✅ Pass document ID
+                              ),
                             ),
                           );
                         },

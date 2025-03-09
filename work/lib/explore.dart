@@ -171,8 +171,13 @@ class _exploreState extends State<explore> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    Detail(listing: listing), // Navigate to Detail
+                builder: (context) => Detail(
+                  listing: listing,
+                  collection: listing['collection'] ??
+                      'unknown_collection', // Fix: Pass collection
+                  documentId: listing['documentId'] ??
+                      'unknown_document', // Fix: Pass document ID
+                ),
               ),
             );
           },

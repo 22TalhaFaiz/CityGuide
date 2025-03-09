@@ -90,7 +90,13 @@ class KarachiPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Detail(listing: data),
+                              builder: (context) => Detail(
+                                listing: data,
+                                collection:
+                                    "karachi", // Explicitly pass the collection name
+                                documentId: attractions[index]
+                                    .id, // Firestore document ID
+                              ),
                             ),
                           );
                         },
